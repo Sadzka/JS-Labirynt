@@ -24,3 +24,4 @@ class Window:
             
             if event == sf.Event.CLOSED:
                 self.window.close()
+                self.open = False
