@@ -14,7 +14,7 @@ class Window:
     def getRenderWindow(self):
         return self.window
         
-    def update(self, dtime):
+    def update(self, gui):
     
         for event in self.window.events:
             if event == sf.Event.LOST_FOCUS:
@@ -25,3 +25,5 @@ class Window:
             if event == sf.Event.CLOSED:
                 self.window.close()
                 self.open = False
+                
+            gui.handleEvent(event)

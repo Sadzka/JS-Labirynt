@@ -17,4 +17,14 @@ class Button(Widget):
     def selfupdate(self):
         self.text.position = self.position
     
-    
+    def handleEvent(self, event, window):
+        mousepos = sf.Mouse.get_position(window)
+        if event == sf.Event.MOUSE_MOVED:
+            if self.text.global_bounds.contains(mousepos):
+                self.text.color = sf.Color(0, 255, 0)
+            else:
+                self.text.color = sf.Color(255, 255, 255)
+                
+            #if self.text.contains():
+            #             pass
+            pass

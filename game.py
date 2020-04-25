@@ -10,7 +10,7 @@ class Game:
     clearColor = sf.Color(0, 0, 0)
     window = Window( 1060, 960 )
     clock = sf.Clock()
-    GuiManager = GUIManager()
+    GuiManager = GUIManager(window.getRenderWindow())
     
     def __init__(self):
     
@@ -22,14 +22,13 @@ class Game:
         button_generate = Button("Generate", 80, 32)
         button_generate.setPosition( 960, 100)
         self.GuiManager.addWidget(button_generate)
-        pass
     
     def getWindow(self):
         return self.window
         
     def update(self):
         dtime = self.clock.restart()
-        self.window.update(dtime)
+        self.window.update(self.GuiManager)
         pass
         
     def render(self):
