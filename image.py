@@ -15,12 +15,12 @@ class Image(Widget):
             exit(1)
         
         self.sprite = sf.Sprite(texture)
-        self.update()
+        self.selfupdate()
         
         
     def draw(self, window):
         window.draw(self.sprite)
         
-    def update(self):
+    def selfupdate(self):
         self.sprite.position = self.position
         #self.sprite.resize( (self.size[0]/32 * 1.1, self.size[1]/32 * 1.1) )

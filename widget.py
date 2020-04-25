@@ -17,11 +17,11 @@ class Widget:
     
     def setPosition(self, x=0, y=0):
         self.position = (x, y)
-        self.update()
+        self.selfupdate()
         
     def setSize(self, x, y):
         size = ( x, y)
-        self.update()
+        self.selfupdate()
     
     def setFocused(self, focused):
         self.focused = focused
@@ -36,5 +36,5 @@ class Widget:
     def draw(self, window):
         pass
     
-    def update(self):
+    def selfupdate(self):
         pass

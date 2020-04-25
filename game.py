@@ -3,20 +3,25 @@ from sfml import sf
 from window import Window
 from image import Image
 from button import Button
-
+from guimanager import GUIManager
 
 class Game:
 
     clearColor = sf.Color(0, 0, 0)
     window = Window( 1060, 960 )
     clock = sf.Clock()
+    GuiManager = GUIManager()
+    
     def __init__(self):
+    
         self.wall = Image("wall")
         self.way = Image("way")
         self.start = Image("start")
         self.end = Image("end")
-        self.button_generate = Button("Generate", 80, 32)
-        self.button_generate.setPosition( 960, 100)
+        
+        button_generate = Button("Generate", 80, 32)
+        button_generate.setPosition( 960, 100)
+        self.GuiManager.addWidget(button_generate)
         pass
     
     def getWindow(self):
@@ -39,7 +44,8 @@ class Game:
             self.wall.setPosition(i*32, i*32)
             self.wall.draw( wind )
         
-        self.button_generate.draw( wind )
+        self.GuiManager.draw(wind)
+        #self.button_generate.draw( wind )
         
         # display window
         wind.display()
