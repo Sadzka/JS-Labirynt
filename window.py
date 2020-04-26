@@ -3,7 +3,8 @@ from sfml import sf
 class Window:
     open = True
     focused = True
-    def __init__(self, width, height):
+    def __init__(self, wsize):
+        width, height = wsize
         self.window = sf.RenderWindow(sf.VideoMode(width, height), "Konrad Paluch - Labirynt")
         self.window.vertical_synchronization = True
         self.window.framerate_limit = 60

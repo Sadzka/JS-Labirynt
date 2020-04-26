@@ -8,7 +8,7 @@ except IOError as error:
     exit(1)
 
 class Widget:
-    focused = False
+    __focused = False
     size = (32, 32)
     position = (0, 0)
     
@@ -20,17 +20,20 @@ class Widget:
         self.selfupdate()
         
     def setSize(self, x, y):
-        size = ( x, y)
+        self.size = (x, y)
         self.selfupdate()
     
     def setFocused(self, focused):
-        self.focused = focused
+        self.__focused = focused
     
     def getPosition(self) -> tuple:
         return self.position
         
     def getSize(self) -> tuple:
         return self.position
+        
+    def isFocused():
+        return __focused
     
     # virtual
     def draw(self, window):
