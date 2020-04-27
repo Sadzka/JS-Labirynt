@@ -9,7 +9,7 @@ except IOError as error:
 
 class Widget:
     __focused = False
-    size = (32, 32)
+    _size = (32, 32)
     position = (0, 0)
     
     def __init__(self, x=0, y=0):
@@ -20,7 +20,7 @@ class Widget:
         self.selfupdate()
         
     def setSize(self, x, y):
-        self.size = (x, y)
+        self._size = (x, y)
         self.selfupdate()
     
     def setFocused(self, focused):

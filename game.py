@@ -22,7 +22,7 @@ class Game:
         
         button_generate = Button("Generate", 80, 32)
         button_generate.setPosition( 960, 100)
-        button_generate.bindLeftCallback( lambda : self.__map.generate(16, 16) )
+        button_generate.bindLeftCallback( lambda : self.__map.generate(8, 8) )
         self.__GuiManager.addWidget(button_generate)
     
     def getWindow(self):
@@ -37,6 +37,7 @@ class Game:
         sizex, sizey = self.__map.getSize()
         tilex, tiley = self.__map.getTilesSize()
         self.wall.setSize(tilex, tiley)
+        map = self.__map.getMap()
         
         wind = self.__window.getRenderWindow()
         
@@ -47,8 +48,10 @@ class Game:
         
         if tilex != 0 or tiley != 0:
             for i in range(sizex):
-                self.wall.setPosition(i*tilex, i*tiley)
-                self.wall.draw( wind )
+                for j in range(sizey):
+                    self.wall.setPosition(i*tilex, j*tiley)
+                    if map[i][j] == 0:
+                        self.wall.draw( wind )
         
         self.__GuiManager.draw(wind)
         
