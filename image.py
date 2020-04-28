@@ -24,7 +24,7 @@ class Image(Widget):
         window.draw(self.sprite)
         
     def selfupdate(self):
-        self.sprite.position = self.position
+        self.sprite.position = self._position
         self.sprite.ratio = ( (self._size[0]/32, self._size[1]/32) )
         
         #print( self.sprite.ratio )

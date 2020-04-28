@@ -6,27 +6,24 @@ class Text(Widget):
     def __init__(self, text, x=0, y=0):
         super().__init__(x, y)
         
-        self.text = sf.Text(text)
-        self.text.font = font
-        self.text.character_size = 20
+        self._text = sf.Text(text)
+        self._text.font = font
+        self._text.character_size = 20
         
-    def setCharacterSize(size):
-        self.text.character_size = size
+    def setCharacterSize(self, size):
+        self._text.character_size = size
         
-    def getCharacterSize(size) -> int:
-        return self.text.character_size
+    def getCharacterSize(self, size) -> int:
+        return self._text.character_size
     
-    def setText(string):
-        self.text.string = string
+    def setText(self, string):
+        self._text.string = string
         
-    def getText(string):
-        return self.text.string
+    def getText(self):
+        return self._text.string
         
     def draw(self, window):
-        window.draw(self.text)
+        window.draw(self._text)
         
     def selfupdate(self):
-        self.text.position = self.position
-        
-    def handleEvent(self, event, window):
-        return
+        self._text.position = self._position

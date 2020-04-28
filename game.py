@@ -5,6 +5,7 @@ from image import Image
 from button import Button
 from guimanager import GUIManager
 from map import Map
+from editbox import EditBox
 
 class Game:
     __windowsize = (1060, 960)
@@ -14,16 +15,7 @@ class Game:
     __map = Map( __windowsize )
     
     def __init__(self):
-    
-        self.wall = Image("wall")
-        self.way = Image("way")
-        self.start = Image("start")
-        self.end = Image("end")
-        
-        button_generate = Button("Generate", 80, 32)
-        button_generate.setPosition( 960, 100)
-        button_generate.bindLeftCallback( lambda : self.__map.generate(8, 8) )
-        self.__GuiManager.addWidget(button_generate)
+        self._loadWidgets()
     
     def getWindow(self):
         return self.__window
@@ -36,7 +28,12 @@ class Game:
     def render(self):
         sizex, sizey = self.__map.getSize()
         tilex, tiley = self.__map.getTilesSize()
+        
         self.wall.setSize(tilex, tiley)
+        self.way.setSize(tilex, tiley)
+        self.start.setSize(tilex, tiley)
+        self.end.setSize(tilex, tiley)
+        
         map = self.__map.getMap()
         
         wind = self.__window.getRenderWindow()
@@ -45,15 +42,48 @@ class Game:
         wind.clear( sf.Color(0, 0, 0) )
         
         # draw content
-        
         if tilex != 0 or tiley != 0:
-            for i in range(sizex):
-                for j in range(sizey):
-                    self.wall.setPosition(i*tilex, j*tiley)
+            for j in range(sizex):
+                for i in range(sizey):
                     if map[i][j] == 0:
+                        self.wall.setPosition(i*tilex, j*tiley)
                         self.wall.draw( wind )
+                    elif map[i][j] == 1:
+                        self.way.setPosition(i*tilex, j*tiley)
+                        self.way.draw( wind )
+                    elif map[i][j] == 2:
+                        self.start.setPosition(i*tilex, j*tiley)
+                        self.start.draw( wind )
+                    elif map[i][j] == 3:
+                        self.end.setPosition(i*tilex, j*tiley)
+                        self.end.draw( wind )
         
         self.__GuiManager.draw(wind)
         
         # display window
         wind.display()
+    
+    def _loadWidgets(self):
+        self.wall = Image("wall")
+        self.way = Image("way")
+        self.start = Image("start")
+        self.end = Image("end")
+        
+        editBox_X = EditBox(sizex=96, sizey=28, text="5")
+        editBox_X.setPosition(960, 16)
+        
+        editBox_Y = EditBox(sizex=96, sizey=28, text="5")
+        editBox_Y.setPosition(960, 60)
+        
+        button_showgrid = Button(text="Show Grid")
+        button_showgrid.setPosition(960, 100)
+        button_showgrid.bindLeftCallback( lambda : self.__map.generateGrid( editBox_X.getText(), editBox_Y.getText() ) )
+        
+        button_generate = Button(text="Generate")
+        button_generate.setPosition(960, 180)
+        button_generate.bindLeftCallback( lambda : print("TODO") )
+        
+        self.__GuiManager.addWidget(editBox_X)
+        self.__GuiManager.addWidget(editBox_Y)
+        self.__GuiManager.addWidget(button_showgrid)
+        self.__GuiManager.addWidget(button_generate)
