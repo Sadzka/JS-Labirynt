@@ -8,6 +8,10 @@ class GUIManager:
     
     def addWidget(self, widget):
         self._widgets.append(widget)
+    
+    def update(self, time):
+        for widget in self._widgets:
+            widget.update(time)
         
     def draw(self, window):
         for widget in self._widgets:
@@ -25,6 +29,4 @@ class GUIManager:
             else:
                 w.setFocus(False)
                 #print("Set F : ", w, w.isFocused(), w.getText())
-            
-            
             #print(w, w.isFocused(), w.getText())

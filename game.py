@@ -21,9 +21,10 @@ class Game:
         return self.__window
         
     def update(self):
-        dtime = self.__clock.restart()
+        dtime = self.__clock.restart().seconds
+        
         self.__window.update(self.__GuiManager)
-        pass
+        self.__GuiManager.update(dtime)
         
     def render(self):
         sizex, sizey = self.__map.getSize()
@@ -69,10 +70,10 @@ class Game:
         self.start = Image("start")
         self.end = Image("end")
         
-        editBox_X = EditBox(sizex=96, sizey=28, text="5")
+        editBox_X = EditBox(sizex=96, sizey=28, text="")
         editBox_X.setPosition(960, 16)
         
-        editBox_Y = EditBox(sizex=96, sizey=28, text="5")
+        editBox_Y = EditBox(sizex=96, sizey=28, text="")
         editBox_Y.setPosition(960, 60)
         
         button_showgrid = Button(text="Show Grid")

@@ -16,7 +16,6 @@ class Window:
         return self.window
         
     def update(self, gui):
-    
         for event in self.window.events:
             if event == sf.Event.LOST_FOCUS:
                 focused = False

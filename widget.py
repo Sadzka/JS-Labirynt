@@ -13,6 +13,7 @@ class Widget:
         self._position = (x, y)
         self._focused = False
         self._size = (32, 32)
+        self._elapsedTime = 0
     
     def setPosition(self, x=0, y=0):
         self._position = (x, y)
@@ -33,6 +34,9 @@ class Widget:
         
     def isFocused(self):
         return self._focused
+        
+    def update(self, time):
+        self._elapsedTime += time
     
     # virtual
     def draw(self, window):
