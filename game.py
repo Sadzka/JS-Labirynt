@@ -37,6 +37,9 @@ class Game:
         
         map = self.__map.getMap()
         
+        #for i in map:
+        #    print("x", i)
+            
         wind = self.__window.getRenderWindow()
         
         # clear the window
@@ -44,8 +47,8 @@ class Game:
         
         # draw content
         if tilex != 0 or tiley != 0:
-            for j in range(sizex):
-                for i in range(sizey):
+            for i in range(sizex):
+                for j in range(sizey):
                     if map[i][j] == 0:
                         self.wall.setPosition(i*tilex, j*tiley)
                         self.wall.draw( wind )
@@ -82,7 +85,7 @@ class Game:
         
         button_generate = Button(text="Generate")
         button_generate.setPosition(960, 180)
-        button_generate.bindLeftCallback( lambda : print("TODO") )
+        button_generate.bindLeftCallback( lambda : self.__map.generate() )
         
         self.__GuiManager.addWidget(editBox_X)
         self.__GuiManager.addWidget(editBox_Y)

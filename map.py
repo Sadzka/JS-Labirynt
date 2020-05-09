@@ -16,10 +16,57 @@ class Map:
     __sizey = 0
     
     __map = []
+    __points = []
     
     def __init__(self, wsize):
         self.__wsizex, self.__wsizey = wsize
         self.__wsizex = self.__wsizex - 100
+    
+    def generate(self):
+        
+        #start point
+        start = (0, 0)
+        
+        x, y = start
+        
+        pk = []
+        self.__map = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
+        self.__map[x][y] = 1
+        ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
+        self.__points.append( (start[0], start[1]) )
+        while True:
+            random.shuffle(ways)
+                    
+            for dir in ways:
+                tx, ty = x + dir[0], y + dir[1]
+                
+                if 0 <= tx < self.__sizex and 0 <= ty < self.__sizey and self.__map[tx][ty] == 0:
+                    end = False
+                    
+                    for dir2 in ways:
+                        ux, uy = tx + dir2[0], ty + dir2[1]
+                        
+                        if x == ux and y == uy: #pozycja startowa
+                            continue
+                            
+                        if 0 <= ux < self.__sizex and 0 <= uy < self.__sizey:
+                            if self.__map[ux][uy] != 0:
+                                end = True
+                                break
+                               
+                    if end != True:
+                        x, y = tx, ty
+                        
+                        self.__map[tx][ty] = 1
+                        pk.append( (x, y) )
+                        self.__points.append( (x, y) )
+                        break
+                
+            else:
+                if len(pk) <= 0:
+                    break
+                x, y = pk.pop()
+        pass
         
     def generateGrid(self, x, y):
         
@@ -44,23 +91,12 @@ class Map:
             print("TODO")
             return
         
-        self.__map = [ [0 for x in range(0, sizex)] for y in range(0, sizey) ]
-        """
-        for x in range(1, sizex):
-            self.__map[x][0] = 1
-            self.__map[x][sizey-1] = 1
-            
-        for y in range(0, sizey):
-            self.__map[0][y] = 1
-            self.__map[sizex-1][y] = 1
-        """
+        self.__map = [ [0 for y in range(0, sizey)] for x in range(0, sizex) ]
         
         self.__sizex = sizex
         self.__sizey = sizey
-        self.__tilesizey = self.__wsizex / self.__sizex
-        self.__tilesizex = self.__wsizey / self.__sizey
-        
-        #print(self.__map)
+        self.__tilesizex = self.__wsizex / self.__sizex
+        self.__tilesizey = self.__wsizey / self.__sizey
 
     def getSize(self):
         return (self.__sizex, self.__sizey)
