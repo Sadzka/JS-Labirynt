@@ -187,41 +187,71 @@ class Map:
                     break;
         
         self.__emptyGrid = False
+        self.__userpp.clear()
     
+    def __clearSolution(self):
+        for x in range(self.__sizex):
+            for y in range(self.__sizex):
+                if self.__map[x][y] == 4:
+                    self.__map[x][y] = 1
+                    
     def solveMaze(self):
-        
         if self.__emptyGrid:
             print("pierwsze wygeneruj labirynt")
             return
-    
+        self.__clearSolution()
+        self.__userpptmp = self.__userpp.copy()
+        self.__userpptmp.append( self.__end )
+        
         wasHere = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
         correctPath = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
         
-        b = self.__recursiveSolve( self.__start, wasHere, correctPath);
+        for i in range( len(self.__userpp) + 1):
+            self.__recursiveSolve( self.__start, wasHere, correctPath);
+            wasHere = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
         
         #update
         for x in range(self.__sizex):
             for y in range(self.__sizex):
                 if self.__map[x][y] == 1 and correctPath[x][y] == True:
                     self.__map[x][y] = 4
+        
+        for pos in self.__userpp:
+            self.__map[pos[0]][pos[1]] = 5
+            
+        #for i in correctPath:
+        #    print(i)
     
     def __recursiveSolve( self, pos, wasHere, correctPath ):
+    
         x, y = pos[0], pos[1]
-        print("calls", x, y )
-        if x == self.__end[0] and y == self.__end[1]:
-            return True; # If you reached the end
+        
+        if len(self.__userpptmp) == 1:
+            if pos in self.__userpptmp:
+                return True; # If you reached the end
+                
+        
+        if pos in self.__userpptmp:
+            correctPath[x][y] = True
+            self.__userpptmp.remove(pos)
+            return True
             
-        if self.__map[x][y] == 0 or wasHere[x][y]:
+        elif self.__map[x][y] == 0 or wasHere[x][y]:
             return False;  # If you are on a wall or already were here
+            #return True
+        
+        #if x == self.__end[0] and y == self.__end[1]:
+        #    return True; # If you reached the end
+            
             
         wasHere[x][y] = True
         
-        if x != 0: # Checks if not on left edge
-            if self.__recursiveSolve( (x - 1, y), wasHere, correctPath):  # Recalls method one to the left
-                correctPath[x][y] = True # Sets that path value to true;
+        if x != 0:                                                         # Checks if not on left edge
+            if self.__recursiveSolve( (x - 1, y), wasHere, correctPath):   # Recalls method one to the left
+                correctPath[x][y] = True
                 return True
 
-        if  x != self.__sizex - 1:       # Checks if not on right edge
+        if  x != self.__sizex - 1:                                         # Checks if not on right edge
             if self.__recursiveSolve( (x + 1, y), wasHere, correctPath):   # Recalls method one to the right
                 correctPath[x][y] = True
                 return True
@@ -238,7 +268,15 @@ class Map:
             
         return False
     
-    
+    def clearSolve(self):
+        self.__map = [ [1 if self.__map[x][y] == 4 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
+        pass
+        
+    def clearPoints(self):
+        self.__userpp.clear()
+        self.__map = [ [1 if self.__map[x][y] == 5 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
+
+        
     def setStart(self, x, y):
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             self.__map[ x ][ y ] = 2
@@ -288,6 +326,7 @@ class Map:
         self.__tilesizey = self.__wsizey / self.__sizey
         self.__generated = True
         self.__emptyGrid = True
+        self.__userpp.clear()
         
         self.setStart(self.__start[0], self.__start[1])
         self.setEnd(self.__end[0], self.__end[1])
@@ -327,11 +366,12 @@ class Map:
                 
                 if event['button'] == 2 and self.__emptyGrid == False:  # Middle Mouse
                     pos = self.__mouseposToTile(mousepos)
-                    if self.__map[ pos[0] ][ pos[1] ] == 4:
+                    if self.__map[ pos[0] ][ pos[1] ] == 5 or self.__map[ pos[0] ][ pos[1] ] == 4:
                         self.__map[ pos[0] ][ pos[1] ] = 1
-                        self.__userpp.remove( (pos[0], pos[1]) )
+                        if pos in self.__userpp:
+                            self.__userpp.remove( (pos[0], pos[1]) )
                     elif self.__map[ pos[0] ][ pos[1] ] == 1:
-                        self.__map[ pos[0] ][ pos[1] ] = 4
+                        self.__map[ pos[0] ][ pos[1] ] = 5
                         self.__userpp.append( (pos[0], pos[1]) )
-                    print( self.__userpp )
+                    #print( self.__userpp )
     

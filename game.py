@@ -35,6 +35,7 @@ class Game:
         self.start.setSize(tilex, tiley)
         self.end.setSize(tilex, tiley)
         self.indirect.setSize(tilex, tiley)
+        self.userindirect.setSize(tilex, tiley)
         
         map = self.__map.getMap()
         
@@ -65,6 +66,9 @@ class Game:
                     elif map[i][j] == 4:
                         self.indirect.setPosition(i*tilex, j*tiley)
                         self.indirect.draw( wind )
+                    elif map[i][j] == 5:
+                        self.userindirect.setPosition(i*tilex, j*tiley)
+                        self.userindirect.draw( wind )
         
         self.__GuiManager.draw(wind)
         
@@ -77,11 +81,12 @@ class Game:
         self.start = Image("start")
         self.end = Image("end")
         self.indirect = Image("indirect")
+        self.userindirect = Image("userindirect")
         
-        editBox_X = EditBox(sizex=96, sizey=28, text="3")
+        editBox_X = EditBox(sizex=96, sizey=28, text="30")
         editBox_X.setPosition(960, 16)
         
-        editBox_Y = EditBox(sizex=96, sizey=28, text="3")
+        editBox_Y = EditBox(sizex=96, sizey=28, text="30")
         editBox_Y.setPosition(960, 60)
         
         button_showgrid = Button(text="Show Grid")
@@ -96,8 +101,21 @@ class Game:
         button_solve.setPosition(960, 200)
         button_solve.bindLeftCallback( lambda : self.__map.solveMaze() )
         
+        button_clearSolve = Button(text="Clear Solve")
+        button_clearSolve.setPosition(960, 250)
+        button_clearSolve.bindLeftCallback( lambda : self.__map.clearSolve() )
+        button_clearSolve.setCharacterSize(18)
+        
+        button_clearPoints = Button(text="Clear points")
+        button_clearPoints.setPosition(960, 300)
+        button_clearPoints.bindLeftCallback( lambda : self.__map.clearPoints() )
+        button_clearPoints.setCharacterSize(18)
+        
         self.__GuiManager.addWidget(editBox_X)
         self.__GuiManager.addWidget(editBox_Y)
         self.__GuiManager.addWidget(button_showgrid)
         self.__GuiManager.addWidget(button_generate)
+        self.__GuiManager.addWidget(button_solve)
+        self.__GuiManager.addWidget(button_clearSolve)
+        self.__GuiManager.addWidget(button_clearPoints)
         self.__GuiManager.addWidget(button_solve)
