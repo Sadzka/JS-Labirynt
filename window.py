@@ -1,29 +1,32 @@
 from sfml import sf
 
 class Window:
-    open = True
-    focused = True
+    __open = True
+    __focused = True
     def __init__(self, wsize):
         width, height = wsize
-        self.window = sf.RenderWindow(sf.VideoMode(width, height), "Konrad Paluch - Labirynt")
-        self.window.vertical_synchronization = True
-        self.window.framerate_limit = 60
+        self.__window = sf.RenderWindow(sf.VideoMode(width, height), "Konrad Paluch - Labirynt")
+        self.__window.vertical_synchronization = True
+        self.__window.framerate_limit = 60
     
     def isOpen(self):
-        return self.open
+        return self.__open
     
     def getRenderWindow(self):
-        return self.window
+        return self.__window
+        
+    def isFocused(self):
+        return self.__focused
         
     def update(self, gui):
-        for event in self.window.events:
+        for event in self.__window.events:
             if event == sf.Event.LOST_FOCUS:
-                focused = False
+                self.__focused = False
             elif event == sf.Event.GAINED_FOCUS:
-                focused = True
+                self.__focused = True
             
             if event == sf.Event.CLOSED:
-                self.window.close()
-                self.open = False
+                self.__window.close()
+                self.__open = False
                 
             gui.handleEvent(event)

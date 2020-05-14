@@ -1,5 +1,5 @@
 from sfml import sf
-from widget import Widget
+from GUI.widget import Widget
 
 class Image(Widget):
 
@@ -18,8 +18,7 @@ class Image(Widget):
         self.sprite = sf.Sprite(texture)
         attributes = [attr for attr in dir(self.sprite)]
         self.selfupdate()
-        
-        
+          
     def draw(self, window):
         window.draw(self.sprite)
         

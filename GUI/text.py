@@ -1,8 +1,9 @@
 from sfml import sf
-from widget import Widget
-from widget import font
+from GUI.widget import Widget
+from GUI.widget import font
 
 class Text(Widget):
+
     def __init__(self, text, x=0, y=0):
         super().__init__(x, y)
         

@@ -5,19 +5,22 @@ import random
 
 class Map:
     
-    #window size
+    # Window Size
     __wsizex = 0
     __wsizey = 0
     
+    # Tile Size
     __tilesizex = 0
     __tilesizey = 0
     
+    # Numbers of rows and columns
     __sizex = 0
     __sizey = 0
     
+    # Maze
     __map = []
-    __points = []
     
+    # User points
     __userpp = []
     
     def __init__(self, wsize):
@@ -63,6 +66,7 @@ class Map:
         x, y = self.__start
         
         pk = [ (x, y)]
+        self.__points = []
         self.__map = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
         self.__map[x][y] = 2
         self.__map[ self.__end[0] ][ self.__end[1] ] = 3
@@ -188,18 +192,12 @@ class Map:
         
         self.__emptyGrid = False
         self.__userpp.clear()
-    
-    def __clearSolution(self):
-        for x in range(self.__sizex):
-            for y in range(self.__sizex):
-                if self.__map[x][y] == 4:
-                    self.__map[x][y] = 1
-                    
+              
     def solveMaze(self):
         if self.__emptyGrid:
             print("pierwsze wygeneruj labirynt")
             return
-        self.__clearSolution()
+        self.clearSolve()
         self.__userpptmp = self.__userpp.copy()
         self.__userpptmp.append( self.__end )
         
@@ -218,9 +216,6 @@ class Map:
         
         for pos in self.__userpp:
             self.__map[pos[0]][pos[1]] = 5
-            
-        #for i in correctPath:
-        #    print(i)
     
     def __recursiveSolve( self, pos, wasHere, correctPath ):
     
@@ -270,13 +265,11 @@ class Map:
     
     def clearSolve(self):
         self.__map = [ [1 if self.__map[x][y] == 4 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
-        pass
         
     def clearPoints(self):
         self.__userpp.clear()
         self.__map = [ [1 if self.__map[x][y] == 5 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
 
-        
     def setStart(self, x, y):
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             self.__map[ x ][ y ] = 2

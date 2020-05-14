@@ -1,9 +1,10 @@
 from sfml import sf
-from widget import Widget
-from widget import font
-from text import Text
+from GUI.widget import Widget
+from GUI.widget import font
+from GUI.text import Text
 
 class Button(Text):
+
     def __init__(self, x=0, y=0, text="Button"):
         super().__init__(text, x, y)
         __leftCallback = 0

@@ -1,18 +1,21 @@
 from sfml import sf
-
-from window import Window
+"""
 from image import Image
 from button import Button
 from guimanager import GUIManager
-from map import Map
 from editbox import EditBox
+"""
+import GUI
+from window import Window
+from map import Map
 
 class Game:
     __windowsize = (1060, 960)
     __window = Window( __windowsize )
     __clock = sf.Clock()
     __map = Map( __windowsize )
-    __GuiManager = GUIManager(__window.getRenderWindow(), __map)
+    
+    __GuiManager = GUI.guimanager.GUIManager(__window.getRenderWindow(), __map)
     
     def __init__(self):
         self.__loadWidgets()
@@ -38,10 +41,7 @@ class Game:
         self.userindirect.setSize(tilex, tiley)
         
         map = self.__map.getMap()
-        
-        #for i in map:
-        #    print("x", i)
-            
+ 
         wind = self.__window.getRenderWindow()
         
         # clear the window
@@ -76,37 +76,37 @@ class Game:
         wind.display()
     
     def __loadWidgets(self):
-        self.wall = Image("wall")
-        self.way = Image("way")
-        self.start = Image("start")
-        self.end = Image("end")
-        self.indirect = Image("indirect")
-        self.userindirect = Image("userindirect")
+        self.wall = GUI.image.Image("wall")
+        self.way = GUI.image.Image("way")
+        self.start = GUI.image.Image("start")
+        self.end = GUI.image.Image("end")
+        self.indirect = GUI.image.Image("indirect")
+        self.userindirect = GUI.image.Image("userindirect")
         
-        editBox_X = EditBox(sizex=96, sizey=28, text="30")
+        editBox_X = GUI.editbox.EditBox(sizex=96, sizey=28, text="30")
         editBox_X.setPosition(960, 16)
         
-        editBox_Y = EditBox(sizex=96, sizey=28, text="30")
+        editBox_Y = GUI.editbox.EditBox(sizex=96, sizey=28, text="30")
         editBox_Y.setPosition(960, 60)
         
-        button_showgrid = Button(text="Show Grid")
+        button_showgrid = GUI.button.Button(text="Show Grid")
         button_showgrid.setPosition(960, 100)
         button_showgrid.bindLeftCallback( lambda : self.__map.generateGrid( editBox_X.getText(), editBox_Y.getText() ) )
         
-        button_generate = Button(text="Generate")
+        button_generate = GUI.button.Button(text="Generate")
         button_generate.setPosition(960, 150)
         button_generate.bindLeftCallback( lambda : self.__map.generate() )
         
-        button_solve = Button(text="Solve")
+        button_solve = GUI.button.Button(text="Solve")
         button_solve.setPosition(960, 200)
         button_solve.bindLeftCallback( lambda : self.__map.solveMaze() )
         
-        button_clearSolve = Button(text="Clear Solve")
+        button_clearSolve = GUI.button.Button(text="Clear Solve")
         button_clearSolve.setPosition(960, 250)
         button_clearSolve.bindLeftCallback( lambda : self.__map.clearSolve() )
         button_clearSolve.setCharacterSize(18)
         
-        button_clearPoints = Button(text="Clear points")
+        button_clearPoints = GUI.button.Button(text="Clear points")
         button_clearPoints.setPosition(960, 300)
         button_clearPoints.bindLeftCallback( lambda : self.__map.clearPoints() )
         button_clearPoints.setCharacterSize(18)
