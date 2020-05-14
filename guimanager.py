@@ -2,31 +2,33 @@ from sfml import sf
 
 class GUIManager:
     
-    def __init__(self, window):
-        self._window = window
-        self._widgets = []
+    def __init__(self, window, map):
+        self.__window = window
+        self.__widgets = []
+        self.__map = map
     
     def addWidget(self, widget):
-        self._widgets.append(widget)
+        self.__widgets.append(widget)
     
     def update(self, time):
-        for widget in self._widgets:
+        for widget in self.__widgets:
             widget.update(time)
         
     def draw(self, window):
-        for widget in self._widgets:
-            widget.draw(self._window)
+        for widget in self.__widgets:
+            widget.draw(self.__window)
             
     def handleEvent(self, event):
-        for widget in self._widgets:
-            widget.handleEvent(event, self._window, self)
+        mousepos = sf.Mouse.get_position(self.__window)
+        
+        for widget in self.__widgets:
+            widget.handleEvent(event, mousepos, self)
+            
+        self.__map.handleEvent(event, mousepos)
     
     def focusMe(self, widget):
-        for w in self._widgets:
+        for w in self.__widgets:
             if widget == w:
                 w.setFocus(True)
-                #print("Set T : ", w, w.isFocused(), w.getText())
             else:
                 w.setFocus(False)
-                #print("Set F : ", w, w.isFocused(), w.getText())
-            #print(w, w.isFocused(), w.getText())

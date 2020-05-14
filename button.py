@@ -18,8 +18,7 @@ class Button(Text):
     def bindRightCallback(self, funct):
         self.__leftCallback = funct
     
-    def handleEvent(self, event, window, GUI):
-        mousepos = sf.Mouse.get_position(window)
+    def handleEvent(self, event, mousepos, GUI):
         if event == sf.Event.MOUSE_MOVED:
             if self._text.global_bounds.contains(mousepos):
                 self._text.color = sf.Color(0, 255, 0)

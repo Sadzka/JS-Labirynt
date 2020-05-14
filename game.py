@@ -11,8 +11,8 @@ class Game:
     __windowsize = (1060, 960)
     __window = Window( __windowsize )
     __clock = sf.Clock()
-    __GuiManager = GUIManager(__window.getRenderWindow())
     __map = Map( __windowsize )
+    __GuiManager = GUIManager(__window.getRenderWindow(), __map)
     
     def __init__(self):
         self._loadWidgets()
@@ -34,6 +34,7 @@ class Game:
         self.way.setSize(tilex, tiley)
         self.start.setSize(tilex, tiley)
         self.end.setSize(tilex, tiley)
+        self.indirect.setSize(tilex, tiley)
         
         map = self.__map.getMap()
         
@@ -61,6 +62,9 @@ class Game:
                     elif map[i][j] == 3:
                         self.end.setPosition(i*tilex, j*tiley)
                         self.end.draw( wind )
+                    elif map[i][j] == 4:
+                        self.indirect.setPosition(i*tilex, j*tiley)
+                        self.indirect.draw( wind )
         
         self.__GuiManager.draw(wind)
         
@@ -72,11 +76,12 @@ class Game:
         self.way = Image("way")
         self.start = Image("start")
         self.end = Image("end")
+        self.indirect = Image("indirect")
         
-        editBox_X = EditBox(sizex=96, sizey=28, text="")
+        editBox_X = EditBox(sizex=96, sizey=28, text="3")
         editBox_X.setPosition(960, 16)
         
-        editBox_Y = EditBox(sizex=96, sizey=28, text="")
+        editBox_Y = EditBox(sizex=96, sizey=28, text="3")
         editBox_Y.setPosition(960, 60)
         
         button_showgrid = Button(text="Show Grid")

@@ -41,9 +41,7 @@ class EditBox(Text):
     def selfupdate(self):
         pass
         
-    def handleEvent(self, event, window, GUI):
-    
-        mousepos = sf.Mouse.get_position(window)
+    def handleEvent(self, event, mousepos, GUI):
         
         if( self._sprite == 0 ):
             return
