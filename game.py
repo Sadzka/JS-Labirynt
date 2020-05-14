@@ -15,7 +15,7 @@ class Game:
     __GuiManager = GUIManager(__window.getRenderWindow(), __map)
     
     def __init__(self):
-        self._loadWidgets()
+        self.__loadWidgets()
     
     def getWindow(self):
         return self.__window
@@ -71,7 +71,7 @@ class Game:
         # display window
         wind.display()
     
-    def _loadWidgets(self):
+    def __loadWidgets(self):
         self.wall = Image("wall")
         self.way = Image("way")
         self.start = Image("start")
@@ -89,10 +89,15 @@ class Game:
         button_showgrid.bindLeftCallback( lambda : self.__map.generateGrid( editBox_X.getText(), editBox_Y.getText() ) )
         
         button_generate = Button(text="Generate")
-        button_generate.setPosition(960, 180)
+        button_generate.setPosition(960, 150)
         button_generate.bindLeftCallback( lambda : self.__map.generate() )
+        
+        button_solve = Button(text="Solve")
+        button_solve.setPosition(960, 200)
+        button_solve.bindLeftCallback( lambda : self.__map.solveMaze() )
         
         self.__GuiManager.addWidget(editBox_X)
         self.__GuiManager.addWidget(editBox_Y)
         self.__GuiManager.addWidget(button_showgrid)
         self.__GuiManager.addWidget(button_generate)
+        self.__GuiManager.addWidget(button_solve)
