@@ -3,6 +3,13 @@ from GUI.widget import Widget
 from GUI.widget import font
 from GUI.text import Text
 
+class ErrorshowerException(Exception):
+    def __init__(self,text):
+        self.value = text
+        
+    def getValue(self):
+        return self.value
+
 class errorshower(Text):
     
     def __init__(self, x=0, y=0, fontsize=32, duration=2, fade=3, center=True):
