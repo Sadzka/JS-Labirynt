@@ -3,6 +3,12 @@
 This is version **2.3.2** of the official Python bindings for **SFML**, based on SFML 2.3.2, and is made available under the terms of the **zlib/libpng** license.
 
     pip install pySFML
+    
+Jeżeli komenda pip install nie działa, można zainstalować pySFML ręcznie używając (testowane aktualnie tylko na Windowsie):
+
+    python setup.py install
+
+
 
 These bindings officially support Python 2.7 and the latest versions of Python 3.x but we encourage you to use the latter one. Incidentally, the documentation, tutorials and examples are written in the latest version of Python.
 
