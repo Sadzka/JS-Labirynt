@@ -362,21 +362,18 @@ class Map:
         try:
             sizex = int(x)
         except Exception as ex:
-            print('Size X is not a integer')
-            print("TODO")
+            raise ErrorshowerException( "Size X nie jest liczba!" )
             return
             
         try:
             sizey = int(y)
         except Exception as ex:
-            print('Size Y is not a integer')
-            print("TODO")
+            raise ErrorshowerException( "Size Y nie jest liczba!" )
             return
     
     
         if sizex < 3 or sizex > 30 or sizey < 3 or sizey > 30:
-            print("Zly rozmiar")
-            print("TODO")
+            raise ErrorshowerException( "Dozwolony rozmiar labiryntu wynosi od 3x3 do 30x30" )
             return
         
         self.__map = [ [0 for y in range(0, sizey)] for x in range(0, sizex) ]
