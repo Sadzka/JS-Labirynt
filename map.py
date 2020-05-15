@@ -1,8 +1,8 @@
 from sfml import sf
-from GUI.errorshower import Errorshower as ES
 import collections
 import numpy as np
 import random
+from GUI.errorshower import ErrorshowerException
 
 class Map:
     
@@ -131,9 +131,46 @@ class Map:
                 return True
             self.__x, self.__y = pk.pop()
     
+    def __checkNeighbor(self, pk, ways):
+        toCheck = [ (1, 1), (1, -1), (-1, -1), (-1, 1)]
+        
+        for point in toCheck:
+            if self.__x + point[0] == self.__end[0] and self.__y + point[1] == self.__end[1]:
+            
+                random.shuffle(ways)     
+                for dir in ways:
+                    tx, ty = self.__x + dir[0], self.__y + dir[1]
+                    if 0 <= tx < self.__sizex and 0 <= ty < self.__sizey and self.__map[tx][ty] == 0:
+                        
+                        for dir2 in ways:
+                                
+                            ux, uy = tx + dir2[0], ty + dir2[1]
+                                
+                            if self.__x == ux and self.__y == uy: #pozycja startowa
+                                continue
+                                
+                            if 0 <= ux < self.__sizex and 0 <= uy < self.__sizey:
+                                if self.__map[ux][uy] != 0 or self.__map[ux][uy] == 3:
+                                    end = True
+                                    break
+                            
+                        self.__x, self.__y = tx, ty
+                        
+                        self.__map[tx][ty] = 1
+                        pk.append( (tx, ty) )
+                        self.__points.append( (tx, ty) )
+                        break
+        
     def __connectEnd(self, ways):
         x, y = self.__end[0], self.__end[1]
         
+        # Sprawdza czy już nie jest połączony
+        for dir in ways:
+            tx, ty = x + dir[0], y + dir[1]
+            if 0 <= tx < self.__sizex and 0 <= ty < self.__sizey:
+                if self.__map[tx][ty] == 1:
+                    return
+                    
         # Uniemozliwia znalezienie drogi w lini prostej
         if self.__start[1] == self.__end[1]: # Ta sama linia w X
             if self.__start[1] < self.__end[1]:
@@ -145,7 +182,6 @@ class Map:
                 ways.remove( (0, 1) )
             else:
                 ways.remove( (0, -1) )
-        
         # Szuka drogi
         for dir in ways:
                              
@@ -157,12 +193,12 @@ class Map:
             if 0 <= ux < self.__sizex and 0 <= uy < self.__sizey:
                 if self.__map[ux][uy] != 0:
                 
-                    if 0 <= lx < self.__sizex and 0 <= lx < self.__sizey:
+                    if 0 <= lx < self.__sizex and 0 <= ly < self.__sizey:
                         if self.__map[lx][ly] != 0:
                             continue
                             
-                    if 0 <= rx < self.__sizex and 0 <= rx < self.__sizey:
-                        if self.__map[lx][ly] != 0:
+                    if 0 <= rx < self.__sizex and 0 <= ry < self.__sizey:
+                        if self.__map[rx][ry] != 0:
                             continue
                     
                     self.__map[tx][ty] = 1
@@ -173,15 +209,15 @@ class Map:
     def generate(self):
     
         if self.__generated == False:
-            ES.show( "Pierwsze wygeneruj siatke" )
+            raise ErrorshowerException( "Pierwsze wygeneruj siatke" )
             return
         
         if self.__start == self.__end:
-            ES.show( "Start nie moze byc na końcu labiryntu" )
+            raise ErrorshowerException( "Start nie moze byc na końcu labiryntu" )
             return
             
         if self.__checkIfPossible() == False:
-            ES.show( "Nie mozna wygenerowac Labiryntu" )
+            raise ErrorshowerException( "Nie mozna wygenerowac Labiryntu" )
             return
             
         self.__x, self.__y = self.__start
@@ -209,6 +245,10 @@ class Map:
                 
         
         ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
+        
+        # Generuje pierwsze pole, jeżeli start i koniec są obok siebie
+        self.__checkNeighbor(pk, ways)
+        
         while True:
             if self.__findway(pk, ways) == True:
                 break
@@ -223,7 +263,7 @@ class Map:
               
     def solveMaze(self):
         if self.__emptyGrid:
-            ES.show( "Pierwsze wygeneruj labirynt" )
+            raise ErrorshowerException( "Pierwsze wygeneruj labirynt" )
             return
         self.clearSolve()
         self.__userpptmp = self.__userpp.copy()
