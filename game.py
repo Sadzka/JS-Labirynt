@@ -96,7 +96,7 @@ class Game:
         button_generate = GUI.button.Button(text="Generate")
         button_generate.setPosition(960, 150)
         button_generate.bindLeftCallback( lambda : self.__map.generate() )
-        
+
         button_solve = GUI.button.Button(text="Solve")
         button_solve.setPosition(960, 200)
         button_solve.bindLeftCallback( lambda : self.__map.solveMaze() )
@@ -118,4 +118,4 @@ class Game:
         self.__GuiManager.addWidget(button_solve)
         self.__GuiManager.addWidget(button_clearSolve)
         self.__GuiManager.addWidget(button_clearPoints)
-        self.__GuiManager.addWidget(button_solve)
+        self.__GuiManager.addWidget(GUI.errorshower.Errorshower)

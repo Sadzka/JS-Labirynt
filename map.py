@@ -1,4 +1,5 @@
 from sfml import sf
+from GUI.errorshower import Errorshower as ES
 import collections
 import numpy as np
 import random
@@ -49,125 +50,103 @@ class Map:
                 return False
         return True
 
-    def generate(self):
-        
-        if self.__generated == False:
-            print("Pierwsze wygeneruj siatke")
-            return
-        
-        if self.__start == self.__end:
-            print("Start i koneic sa w tym samym miejscu")
-            return
-            
-        if self.__checkIfPossible() == False:
-            print("Nie mozna wygenerowac")
-            return
-            
-        x, y = self.__start
-        
-        pk = [ (x, y)]
-        self.__points = []
-        self.__map = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
-        self.__map[x][y] = 2
-        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
-        
-        ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
-        
-        self.__points.append( (self.__start[0], self.__start[1]) )
-        while True:
-        
-            """
-            import time
-            for line in self.__map:
-                print( line )
-            time.sleep(2)
-            """
-            
-            random.shuffle(ways)     
-            for dir in ways:
-                tx, ty = x + dir[0], y + dir[1]
-                if 0 <= tx < self.__sizex and 0 <= ty < self.__sizey and self.__map[tx][ty] == 0:
-                    end = False
+    def __findway(self, pk, ways):
+        random.shuffle(ways)     
+        for dir in ways:
+            tx, ty = self.__x + dir[0], self.__y + dir[1]
+            if 0 <= tx < self.__sizex and 0 <= ty < self.__sizey and self.__map[tx][ty] == 0:
+                end = False
+                
+                for dir2 in ways:
+                
+                    if end:
+                        break
+                        
+                    ux, uy = tx + dir2[0], ty + dir2[1]
+                        
+                    if self.__x == ux and self.__y == uy: #pozycja startowa
+                        continue
+                        
+                    if self.__checkfield(ux, uy):
+                        end = True
+                        break
+                            
                     
-                    for dir2 in ways:
                     
-                        if end:
-                            break
-                            
-                        ux, uy = tx + dir2[0], ty + dir2[1]
-                            
-                        if x == ux and y == uy: #pozycja startowa
-                            continue
-                            
+                    if dir == (1, 0):   
+                        ux, uy = tx + 1, ty + 1
                         if self.__checkfield(ux, uy):
                             end = True
-                            break
+                            break  
+                            
+                        ux, uy = tx + 1, ty - 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
                                 
-                        
-                        
-                        if dir == (1, 0):   
-                            ux, uy = tx + 1, ty + 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
                                 
-                            ux, uy = tx + 1, ty - 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
-                                    
-                                    
-                        if dir == (0, 1):
-                            ux, uy = tx + 1, ty + 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
+                    if dir == (0, 1):
+                        ux, uy = tx + 1, ty + 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
+                            
+                        ux, uy = tx - 1, ty + 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
                                 
-                            ux, uy = tx - 1, ty + 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
-                                    
-                        if dir == (0, -1):
-                            ux, uy = tx + 1, ty - 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
+                    if dir == (0, -1):
+                        ux, uy = tx + 1, ty - 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
+                            
+                        ux, uy = tx - 1, ty - 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
                                 
-                            ux, uy = tx - 1, ty - 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
-                                    
-                                    
-                        if dir == (-1, 0):
-                            ux, uy = tx - 1, ty + 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
-                                    
-                            ux, uy = tx - 1, ty - 1
-                            if self.__checkfield(ux, uy):
-                                end = True
-                                break  
-                        
-                    if end != True:
-                        x, y = tx, ty
-                        
-                        self.__map[tx][ty] = 1
-                        pk.append( (tx, ty) )
-                        self.__points.append( (tx, ty) )
-                        break
-            else:
-                if len(pk) <= 0:
+                                
+                    if dir == (-1, 0):
+                        ux, uy = tx - 1, ty + 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
+                                
+                        ux, uy = tx - 1, ty - 1
+                        if self.__checkfield(ux, uy):
+                            end = True
+                            break  
+                    
+                if end != True:
+                    self.__x, self.__y = tx, ty
+                    
+                    self.__map[tx][ty] = 1
+                    pk.append( (tx, ty) )
+                    self.__points.append( (tx, ty) )
                     break
-                x, y = pk.pop()
-        
-        #connect End
-        
+        else:
+            if len(pk) <= 0:
+                return True
+            self.__x, self.__y = pk.pop()
+    
+    def __connectEnd(self, ways):
         x, y = self.__end[0], self.__end[1]
-        end = False
         
+        # Uniemozliwia znalezienie drogi w lini prostej
+        if self.__start[1] == self.__end[1]: # Ta sama linia w X
+            if self.__start[1] < self.__end[1]:
+                ways.remove( (1, 0) )
+            else:
+                ways.remove( (-1, 0) )
+        elif self.__start[0] == self.__end[0]: # Ta sama linia w Y
+            if self.__start[0] < self.__end[0]:
+                ways.remove( (0, 1) )
+            else:
+                ways.remove( (0, -1) )
+        
+        # Szuka drogi
         for dir in ways:
                              
             tx, ty = x + dir[0], y + dir[1]
@@ -185,17 +164,66 @@ class Map:
                     if 0 <= rx < self.__sizex and 0 <= rx < self.__sizey:
                         if self.__map[lx][ly] != 0:
                             continue
-                            
+                    
                     self.__map[tx][ty] = 1
                     self.__points.append( (tx, ty) )
-                    break;
+                    return True
+        return False
+                    
+    def generate(self):
+    
+        if self.__generated == False:
+            ES.show( "Pierwsze wygeneruj siatke" )
+            return
+        
+        if self.__start == self.__end:
+            ES.show( "Start nie moze byc na końcu labiryntu" )
+            return
+            
+        if self.__checkIfPossible() == False:
+            ES.show( "Nie mozna wygenerowac Labiryntu" )
+            return
+            
+        self.__x, self.__y = self.__start
+        
+        pk = [ (self.__x, self.__y)]
+        self.__points = []
+        self.__map = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
+        self.__map[ self.__x ][ self.__y ] = 2
+        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
+        self.__points.append( (self.__start[0], self.__start[1]) )
+        
+        # Pierwsza iteracja, uniemożliwienia korytarza w lini prostej
+        ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
+        if len( self.__points ) == 1:
+            if self.__start[1] == self.__end[1]: # Ta sama linia w X
+                if self.__start[1] < self.__end[1]:
+                    ways.remove( (1, 0) )
+                else:
+                    ways.remove( (-1, 0) )
+            elif self.__start[0] == self.__end[0]: # Ta sama linia w Y
+                if self.__start[0] < self.__end[0]:
+                    ways.remove( (0, 1) )
+                else:
+                    ways.remove( (0, -1) )
+                
+        
+        ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
+        while True:
+            if self.__findway(pk, ways) == True:
+                break
+        
+        # Połącz koniec z labiryntem
+        # Jeżeli sie nie udalo, generuj ponownie
+        if self.__connectEnd(ways) == False:
+            self.generate()
         
         self.__emptyGrid = False
         self.__userpp.clear()
               
     def solveMaze(self):
         if self.__emptyGrid:
-            print("pierwsze wygeneruj labirynt")
+            ES.show( "Pierwsze wygeneruj labirynt" )
             return
         self.clearSolve()
         self.__userpptmp = self.__userpp.copy()
@@ -210,7 +238,7 @@ class Map:
         
         #update
         for x in range(self.__sizex):
-            for y in range(self.__sizex):
+            for y in range(self.__sizey):
                 if self.__map[x][y] == 1 and correctPath[x][y] == True:
                     self.__map[x][y] = 4
         

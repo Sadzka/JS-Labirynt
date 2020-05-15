@@ -5,7 +5,7 @@ class Window:
     __focused = True
     def __init__(self, wsize):
         width, height = wsize
-        self.__window = sf.RenderWindow(sf.VideoMode(width, height), "Konrad Paluch - Labirynt")
+        self.__window = sf.RenderWindow(sf.VideoMode(width, height), "Konrad Paluch - Labirynt", sf.Style.CLOSE)
         self.__window.vertical_synchronization = True
         self.__window.framerate_limit = 60
     

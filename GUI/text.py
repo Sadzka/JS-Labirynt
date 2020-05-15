@@ -10,7 +10,7 @@ class Text(Widget):
         self._text = sf.Text(text)
         self._text.font = font
         self._text.character_size = 20
-        self._string = text
+        self.__string = text
         
     def setCharacterSize(self, size):
         self._text.character_size = size
@@ -19,11 +19,11 @@ class Text(Widget):
         return self._text.character_size
     
     def setText(self, string):
-        self._string = string
-        self._text.string = self._string
+        self.__string = string
+        self._text.string = self.__string
         
     def getText(self):
-        return self._string
+        return self.__string
         
     def draw(self, window):
         window.draw(self._text)
