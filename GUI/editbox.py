@@ -9,15 +9,27 @@ class EditBox(Text):
     __caret.font = font
     __caret.character_size = 20
     
-    def __init__(self, x=0, y=0, sizex=32, sizey=32, text="3"):
+    def __init__(self, x=0, y=0, sizex=32, sizey=32, text=""):
+        """
+        Create a EditBox object
+        Parameters:
+        x (int) : position of left corner
+        y (int) : position of upper corner
+        sizex (int) : width of EditBox
+        sizey (int) : height of EditBox
+        text (str) : text in button
+        """
         super().__init__(text, x, y)
         self.__canvas = sf.RenderTexture(sizex, sizey)
         self.__sprite = 0
         self._text.position = (5, 0)
           
     def draw(self, window):
-    
-            
+        """
+        Draw this widget in window
+        Parameters:
+        window (Window) : Window to draw.
+        """
         self.__canvas.clear( sf.Color(155, 155, 155) )
         
         self.__canvas.draw(self._text)
@@ -40,6 +52,14 @@ class EditBox(Text):
         pass
         
     def handleEvent(self, event, mousepos, GUI):
+        """
+        Handle window event
+        
+        Parameters:
+        event (sf.Event) : Event to handle.
+        mousepos (int, int) : Position of mouse.
+        GUI (GUIManager) : GUIManager with widgets.
+        """
         
         if( self.__sprite == 0 ):
             return

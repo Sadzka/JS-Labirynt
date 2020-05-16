@@ -8,6 +8,11 @@ class ErrorshowerException(Exception):
         self.value = text
         
     def getValue(self):
+        """
+        Return value of Exception
+        Returns:
+        str : string text of exception.
+        """
         return self.value
 
 class errorshower(Text):
@@ -29,16 +34,29 @@ class errorshower(Text):
             self.__fade = fade
     
     def selfupdate(self):
+        """
+        Update required variables
+        """
         if self.__center:
             self._text.position = ( self._position[0] - self._text.global_bounds.width/2, self._position[1] - self._text.global_bounds.height/2 )
         else:
             self._text.position = ( self._position[0], self._position[1] )
 
     def setCenter(self, center):
+        """
+        Set Anchor to center of text
+        Parameters:
+        center (bool) : True to set
+        """
         self.__center = center
         self.selfupdate()
     
     def show(self, str=""):
+        """
+        Show the Error
+        Parameters:
+        str (str) : Message to show
+        """
         if not str == "":
             self.setText(str)
         
@@ -46,16 +64,31 @@ class errorshower(Text):
         self._text.color = sf.Color(255, 0, 0, 255);
         self.selfupdate()
         
-    def setDuration(self, duration ):
+    def setDuration(self, duration):
+        """
+        Set the duration after error begin disappear
+        Parameters:
+        duration (float) : time in seconds
+        """
         self.__duration = duration
         
     def setFade(self, fade):
+        """
+        Set the fade after error disappear
+        Parameters:
+        fade (float) : time in seconds
+        """
         if fade < self.__duration:
             self.__fade = self.__duration + 1
         else:
             self.__fade = fade
     
     def draw(self, window):
+        """
+        Draw this widget in window
+        Parameters:
+        window (Window) : Window to draw.
+        """
         alpha = 255
         if self._elapsedTime < self.__fade:
             if self._elapsedTime > self.__duration:

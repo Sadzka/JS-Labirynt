@@ -4,7 +4,13 @@ from GUI.widget import Widget
 class Image(Widget):
 
     def __init__(self, texture, x=0, y=0):
-        
+        """
+        Create a Image object
+        Parameters:
+        texture (sf.Texture) : texture to show on image
+        x (int) : position of left corner
+        y (int) : position of upper corner
+        """
         super().__init__(x, y)
         
         filename = 'img/' + texture + '.png'
@@ -20,13 +26,16 @@ class Image(Widget):
         self.selfupdate()
           
     def draw(self, window):
+        """
+        Draw this widget in window
+        Parameters:
+        window (Window) : Window to draw.
+        """
         window.draw(self.sprite)
         
     def selfupdate(self):
+        """
+        Update required variables
+        """
         self.sprite.position = self._position
         self.sprite.ratio = ( (self._size[0]/32, self._size[1]/32) )
-        
-        #print( self.sprite.ratio )
-        #print( self.sprite.ratio )
-        #print( self.sprite.__name__ )
-        #self.sprite.scale( (self.i, self.i) )

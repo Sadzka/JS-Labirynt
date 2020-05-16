@@ -25,6 +25,12 @@ class Map:
     __userpp = []
     
     def __init__(self, wsize):
+        """
+        Create a maze object
+
+        Parameters:
+        wsize (int x, int y): x and y size of maze
+        """
         self.__wsizex, self.__wsizey = wsize
         self.__wsizex = self.__wsizex - 100
         self.__generated = False
@@ -33,12 +39,25 @@ class Map:
         self.__emptyGrid = True
     
     def __checkfield(self, x, y):
+        """
+        Check if field can be next tile of way
+
+        Parameters:
+        x (int): x position
+        y (int): y position
+        """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             if self.__map[x][y] != 0:
                 return True
         return False
     
     def __checkIfPossible(self):
+        """
+        Check if maze can be generated from given start and end points
+
+        Returns:
+        bool : Maze can be generated?
+        """
         ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
         
         sx, sy = self.__start
@@ -50,7 +69,17 @@ class Map:
                 return False
         return True
 
-    def __findway(self, pk, ways):
+    def __findpath(self, pk, ways):
+        """
+        Find next path of maze
+
+        Parameters:
+        pk (int array): points of generated maze
+        ways ( (int, int) array ): possible directions
+        Returns:
+        bool : return True when no path can be found
+        """
+    
         random.shuffle(ways)     
         for dir in ways:
             tx, ty = self.__x + dir[0], self.__y + dir[1]
@@ -72,7 +101,6 @@ class Map:
                         break
                             
                     
-                    
                     if dir == (1, 0):   
                         ux, uy = tx + 1, ty + 1
                         if self.__checkfield(ux, uy):
@@ -83,8 +111,7 @@ class Map:
                         if self.__checkfield(ux, uy):
                             end = True
                             break  
-                                
-                                
+                                         
                     if dir == (0, 1):
                         ux, uy = tx + 1, ty + 1
                         if self.__checkfield(ux, uy):
@@ -106,8 +133,7 @@ class Map:
                         if self.__checkfield(ux, uy):
                             end = True
                             break  
-                                
-                                
+                                       
                     if dir == (-1, 0):
                         ux, uy = tx - 1, ty + 1
                         if self.__checkfield(ux, uy):
@@ -130,8 +156,17 @@ class Map:
             if len(pk) <= 0:
                 return True
             self.__x, self.__y = pk.pop()
+        return False
     
     def __checkNeighbor(self, pk, ways):
+        """
+        Requires to check if start and end points is next to each other
+
+        Parameters:
+        pk (int array): points of generated maze
+        ways ( (int, int) array ): possible directions
+        """
+        
         toCheck = [ (1, 1), (1, -1), (-1, -1), (-1, 1)]
         
         for point in toCheck:
@@ -162,6 +197,12 @@ class Map:
                         break
         
     def __connectEnd(self, ways):
+        """
+        Connect the end point with path
+
+        Parameters:
+        ways ( (int, int) array ): possible directions
+        """
         x, y = self.__end[0], self.__end[1]
         
         # Sprawdza czy już nie jest połączony
@@ -207,7 +248,9 @@ class Map:
         return False
                     
     def generate(self):
-    
+        """
+        Generate maze. First grid need to be generated.
+        """
         if self.__generated == False:
             raise ErrorshowerException( "Pierwsze wygeneruj siatke" )
             return
@@ -250,7 +293,7 @@ class Map:
         self.__checkNeighbor(pk, ways)
         
         while True:
-            if self.__findway(pk, ways) == True:
+            if self.__findpath(pk, ways) == True:
                 break
         
         # Połącz koniec z labiryntem
@@ -262,6 +305,9 @@ class Map:
         self.__userpp.clear()
               
     def solveMaze(self):
+        """
+        Find a shortest way from Start to End and all user defined points and show it in maze.
+        """
         if self.__emptyGrid:
             raise ErrorshowerException( "Pierwsze wygeneruj labirynt" )
             return
@@ -287,6 +333,13 @@ class Map:
     
     def __recursiveSolve( self, pos, wasHere, correctPath ):
     
+        """
+        Find a shortest way from Start to End and all user defined points and show it in maze.
+        Parameters:
+        pos ( (int, int) ) : position of searching
+        wasHere (bool array) : 2d array contains visited positions
+        correctPath (bool array) : 2d array with shortest path
+        """
         x, y = pos[0], pos[1]
         
         if len(self.__userpptmp) == 1:
@@ -332,13 +385,22 @@ class Map:
         return False
     
     def clearSolve(self):
+        """
+        Clear solution from maze.
+        """
         self.__map = [ [1 if self.__map[x][y] == 4 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
         
     def clearPoints(self):
+        """
+        Clear user defined points from maze.
+        """
         self.__userpp.clear()
         self.__map = [ [1 if self.__map[x][y] == 5 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
 
     def setStart(self, x, y):
+        """
+        Set start point
+        """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             self.__map[ x ][ y ] = 2
             self.__start = (x, y)
@@ -347,6 +409,9 @@ class Map:
             self.__start = (0, 0)
             
     def setEnd(self, x, y):
+        """
+        Set end point
+        """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             self.__map[ x ][ y ] = 3
             self.__end = (x, y)
@@ -356,6 +421,12 @@ class Map:
     
     def generateGrid(self, x, y):
         
+        """
+        Generate 2d grid with x width and y height
+        Parameters
+        x (int) : width
+        y (int) : height
+        """
         sizex = 0
         sizey = 0
         
@@ -390,18 +461,47 @@ class Map:
         self.setEnd(self.__end[0], self.__end[1])
 
     def getSize(self):
+        """
+        Return tuple size of maze
+        Returns:
+        tuple ( (int, int) ) : (x, y) size of maze
+        """
         return (self.__sizex, self.__sizey)
         
     def getTilesSize(self):
+        """
+        Return tile size of grid.
+        Returns:
+        tuple ( (int, int) ) : (x, y) size of tile
+        """
         return (self.__tilesizex, self.__tilesizey)
     
     def getMap(self):
+        """
+        Return Maze
+        Returns:
+        2d array ( int  ) : Return maze
+        """
         return self.__map
 
     def __mouseposToTile(self, mousepos):
+        """
+        Convert mouse position to x, y tile cords in maze
+        Parameters:
+        mousepos (int, int) : Position of mouse.
+        Returns:
+        tuple ( (int, int) ) : (x, y) tile cords in maze
+        """
         return ( int( mousepos.x / self.__tilesizex ), int( mousepos.y / self.__tilesizey ))
     
     def handleEvent(self, event, mousepos):
+        """
+        Handle window event
+        
+        Parameters:
+        event (sf.Event) : Event to handle.
+        mousepos (int, int) : Position of mouse.
+        """
         if self.__generated == False:
             return
             

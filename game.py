@@ -21,15 +21,27 @@ class Game:
         self.__loadWidgets()
     
     def getWindow(self):
+        """
+        Return Window
+        
+        Returns:
+        Window
+        """
         return self.__window
         
     def update(self):
+        """
+        Update time of program and handle window events
+        """
         dtime = self.__clock.restart().seconds
         
         self.__window.update(self.__GuiManager)
         self.__GuiManager.update(dtime)
         
     def render(self):
+        """
+        Draw all objects
+        """
         sizex, sizey = self.__map.getSize()
         tilex, tiley = self.__map.getTilesSize()
         
@@ -76,6 +88,9 @@ class Game:
         wind.display()
     
     def __loadWidgets(self):
+        """
+        Load widgets
+        """
         self.wall = GUI.image.Image("wall")
         self.way = GUI.image.Image("way")
         self.start = GUI.image.Image("start")
