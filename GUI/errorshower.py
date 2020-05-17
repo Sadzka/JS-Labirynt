@@ -1,4 +1,5 @@
 from sfml import sf
+
 from GUI.widget import Widget
 from GUI.widget import font
 from GUI.text import Text
@@ -7,9 +8,9 @@ class ErrorshowerException(Exception):
     def __init__(self,text):
         self.value = text
         
-    def getValue(self):
+    def get_value(self):
         """
-        Return value of Exception
+        Return value of Exception.
         Returns:
         str : string text of exception.
         """
@@ -23,7 +24,7 @@ class errorshower(Text):
             raise "Another instance of this object can't be created"
             
         super().__init__("", x, y)
-        self.setCharacterSize(32)
+        self.set_character_size(32)
         self._position = (x, y)
         self.__duration = duration
         self.__center = center
@@ -35,16 +36,16 @@ class errorshower(Text):
     
     def selfupdate(self):
         """
-        Update required variables
+        Update required variables.
         """
         if self.__center:
             self._text.position = ( self._position[0] - self._text.global_bounds.width/2, self._position[1] - self._text.global_bounds.height/2 )
         else:
             self._text.position = ( self._position[0], self._position[1] )
 
-    def setCenter(self, center):
+    def set_center(self, center):
         """
-        Set Anchor to center of text
+        Set Anchor to center of text.
         Parameters:
         center (bool) : True to set
         """
@@ -53,28 +54,28 @@ class errorshower(Text):
     
     def show(self, str=""):
         """
-        Show the Error
+        Show the Error.
         Parameters:
         str (str) : Message to show
         """
         if not str == "":
-            self.setText(str)
+            self.set_text(str)
         
-        self._elapsedTime = 0
+        self._elapsed_time = 0
         self._text.color = sf.Color(255, 0, 0, 255);
         self.selfupdate()
         
-    def setDuration(self, duration):
+    def set_duration(self, duration):
         """
-        Set the duration after error begin disappear
+        Set the duration after error begin disappear.
         Parameters:
         duration (float) : time in seconds
         """
         self.__duration = duration
         
-    def setFade(self, fade):
+    def set_fade(self, fade):
         """
-        Set the fade after error disappear
+        Set the fade after error disappear.
         Parameters:
         fade (float) : time in seconds
         """
@@ -85,14 +86,14 @@ class errorshower(Text):
     
     def draw(self, window):
         """
-        Draw this widget in window
+        Draw this widget in window.
         Parameters:
         window (Window) : Window to draw.
         """
         alpha = 255
-        if self._elapsedTime < self.__fade:
-            if self._elapsedTime > self.__duration:
-                alpha = (self.__fade - self._elapsedTime) * 255
+        if self._elapsed_time < self.__fade:
+            if self._elapsed_time > self.__duration:
+                alpha = (self.__fade - self._elapsed_time) * 255
                 
             
             # Outline
@@ -104,7 +105,7 @@ class errorshower(Text):
             self._text.color = sf.Color(255, 0, 0, alpha);
             window.draw(self._text)
        
-    def handleEvent(self, event, mousepos, GUI):
+    def handle_event(self, event, mousepos, GUI):
         return
         
 # Global object

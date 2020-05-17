@@ -5,7 +5,7 @@ class Window:
     __focused = True
     def __init__(self, wsize):
         """
-        Create a window
+        Create a window.
 
         Parameters:
         wsize (int, int): x and y size of window
@@ -16,27 +16,27 @@ class Window:
         self.__window.vertical_synchronization = True
         self.__window.framerate_limit = 60
     
-    def isOpen(self):
+    def is_open(self):
         """
-        Create a window
+        Create a window.
 
         Returns:
         bool: Is window open?
         """
         return self.__open
     
-    def getRenderWindow(self):
+    def get_render_window(self):
         """
-        Return a RenderWindow for drawing
+        Return a RenderWindow for drawing.
 
         Returns:
         sf.RenderWindow: Window to drawing
         """
         return self.__window
         
-    def isFocused(self):
+    def is_focused(self):
         """
-        Return a boolean value - is the window focused
+        Return a boolean value - is the window focused.
 
         Returns:
         bool: Is window focused?
@@ -45,7 +45,7 @@ class Window:
         
     def update(self, gui):
         """
-        Update window and handle event
+        Update window and handle event.
 
         Parameters:
         GUIManager : GUIManager to update
@@ -60,4 +60,4 @@ class Window:
                 self.__window.close()
                 self.__open = False
                 
-            gui.handleEvent(event)
+            gui.handle_event(event)

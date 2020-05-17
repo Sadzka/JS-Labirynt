@@ -4,7 +4,7 @@ class GUIManager:
     
     def __init__(self, window, map):
         """
-        Create a GUIManager
+        Create a GUIManager.
 
         Parameters:
         window (Window) : A window object
@@ -14,9 +14,9 @@ class GUIManager:
         self.__widgets = []
         self.__map = map
     
-    def addWidget(self, widget):
+    def add_widget(self, widget):
         """
-        Add widget to manager
+        Add widget to manager.
         Parameters:
         widget (Widget) : Widget to add.
         """
@@ -24,7 +24,7 @@ class GUIManager:
     
     def update(self, time):
         """
-        Update time in all widget
+        Update time in all widget.
         Parameters:
         time (float) : time to add to widgets (seconds).
         """
@@ -33,16 +33,16 @@ class GUIManager:
         
     def draw(self, window):
         """
-        Draw this widget in window
+        Draw this widget in window.
         Parameters:
         window (Window) : Window to draw.
         """
         for widget in self.__widgets:
             widget.draw(self.__window)
             
-    def handleEvent(self, event):
+    def handle_event(self, event):
         """
-        Handle window event
+        Handle window event.
         
         Parameters:
         event (sf.Event) : Event to handle.
@@ -50,19 +50,20 @@ class GUIManager:
         mousepos = sf.Mouse.get_position(self.__window)
         
         for widget in self.__widgets:
-            widget.handleEvent(event, mousepos, self)
+            widget.handle_event(event, mousepos, self)
             
-        self.__map.handleEvent(event, mousepos)
+        self.__map.handle_event(event, mousepos)
     
-    def focusMe(self, widget):
+    def focus_me(self, widget):
         """
-        Focus this widget and defocus rest of widgets
+        Focus this widget and defocus rest of widgets.
         
         Parameters:
         widget (Widget) : Widget to focus
         """
-        for w in self.__widgets:
-            if widget == w:
-                w.setFocus(True)
+        for widg in self.__widgets:
+            if widget == widg:
+                widg.set_focus(True)
             else:
-                w.setFocus(False)
+                widg.set_focus(False)
+

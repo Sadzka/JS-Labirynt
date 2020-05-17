@@ -1,4 +1,5 @@
 from sfml import sf
+
 from GUI.widget import Widget
 from GUI.widget import font
 
@@ -6,7 +7,7 @@ class Text(Widget):
 
     def __init__(self, text, x=0, y=0):
         """
-        Create a Text object
+        Create a Text object.
         Parameters:
         text (str) : text in button
         x (int) : position of left corner
@@ -19,34 +20,34 @@ class Text(Widget):
         self._text.character_size = 20
         self.__string = text
         
-    def setCharacterSize(self, size):
+    def set_character_size(self, size):
         """
-        Change size of Font
+        Change size of Font.
         Parameters:
         size (int) : new size of font
         """
         self._text.character_size = size
         
-    def getCharacterSize(self, size) -> int:
+    def get_character_size(self, size) -> int:
         """
-        Return character size of font
+        Return character size of font.
         Returns:
         int : current character size
         """
         return self._text.character_size
     
-    def setText(self, string):
+    def set_text(self, string):
         """
-        Set the Text
+        Set the Text.
         Parameters:
         string (str) : text to set
         """
         self.__string = string
         self._text.string = self.__string
         
-    def getText(self):
+    def get_text(self):
         """
-        Return entered text 
+        Return entered text.
         Returns:
         string (str) : text entered
         """
@@ -54,7 +55,7 @@ class Text(Widget):
         
     def draw(self, window):
         """
-        Draw this widget in window
+        Draw this widget in window.
         Parameters:
         window (Window) : Window to draw.
         """
@@ -62,6 +63,6 @@ class Text(Widget):
         
     def selfupdate(self):
         """
-        Update required variables
+        Update required variables.
         """
         self._text.position = self._position

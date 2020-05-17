@@ -1,15 +1,18 @@
-from sfml import sf
-from game import Game
-from GUI.errorshower import ErrorshowerException
-from GUI.errorshower import Errorshower as ES
+def main():
+    from game import Game
 
-game = Game()
+    from GUI.errorshower import ErrorshowerException
+    from GUI.errorshower import Errorshower as ES
 
-while game.getWindow().isOpen():
+    game = Game()
 
-    try:
-        game.update()
-        game.render()
-    except ErrorshowerException as exc:
-        ES.show( exc.getValue() )
-        
+    while game.get_window().is_open():
+        try:
+            game.update()
+            game.render()
+        except ErrorshowerException as exc:
+            ES.show(exc.get_value())
+
+if __name__ == '__main__':
+    main()
+    
