@@ -1,3 +1,8 @@
+## Jeżeli pip install pySFML wciąż nie działa, poniżej są dwa linki do manualnej instalacji
+mirror 1: https://github.com/Sadzka/JS-Labirynt/tree/pySFML
+mirror 2: https://drive.google.com/open?id=1uz2vMbQCoCnE2SrFCDxzkH2Kx72qNQcl
+
+
 # Generator labiryntów
 ## **Opis zadania**
 - Główne okno programu zawiera kontrolki pozwalające na wybór wielkości labiryntu
