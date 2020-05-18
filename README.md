@@ -53,6 +53,28 @@ znalezienie właściwej ścieżki.
 9. Próba wyszukania ścieżki przez pole będące ścianą - oczekiwane niepowodzenie
 przy próbie dodania punktu pośredniego
 
+## Działanie programu:
+przycisk "show grid" generuje siatkę, o zadanych wymiarach
+potrzebną do wygenerowania labiryntu.
+Po wygenerowaniu siatki możemy 
+Lewym Przyciskiem Myszy - wyznaczyć na siatce początek labiryntu.
+Prawym Przyciskiem Myszy - wyznaczyć na siatce koniec labiryntu.
+Wyznaczać punkty można tylko na pustej siatce, aby ją wyczyszić
+trzeba kliknąć ponownie "show grid"
+
+przycisk "generate" tworzy labirynt.
+Po stworzeniu labiryntu możemy
+Środkowy Przycisk Myszy - dodaje/usuwa punkt pośredni, do którego
+będzie wyszukiwana droga. Można dodać kilka punktów.
+
+przycisk "solve" wizualizuje drogę przez labirynt od początku do końca,
+z uwzględnieniem punktów pośrednich.
+
+przycisk "clear solve" usuwa wizualizację drogi od początku do końca,
+z uwzględnieniem punktów pośrednich.
+
+przycisk "clear solve" usuwa punkty pośrednie z wizualizacji.
+
 ## Link do Githuba:
 https://github.com/Sadzka/JS-Labirynt
 
