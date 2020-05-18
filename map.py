@@ -39,7 +39,7 @@ class Map:
         self.__generated = False
         self.__start = (0, 0)
         self.__end = (2, 2)
-        self.__emptyGrid = True
+        self.__empty_grid = True
     
     def __checkfield(self, x, y):
         """
@@ -195,8 +195,8 @@ class Map:
                         self.__x, self.__y = tx, ty
                         
                         self.__map[tx][ty] = 1
-                        pk.append( (tx, ty) )
-                        self.__points.append( (tx, ty) )
+                        pk.append((tx, ty))
+                        self.__points.append((tx, ty))
                         break
         
     def __connect_end(self, ways):
@@ -218,14 +218,14 @@ class Map:
         # Uniemozliwia znalezienie drogi w lini prostej
         if self.__start[1] == self.__end[1]: # Ta sama linia w X
             if self.__start[1] < self.__end[1]:
-                ways.remove( (1, 0) )
+                ways.remove((1, 0))
             else:
-                ways.remove( (-1, 0) )
+                ways.remove((-1, 0))
         elif self.__start[0] == self.__end[0]: # Ta sama linia w Y
             if self.__start[0] < self.__end[0]:
-                ways.remove( (0, 1) )
+                ways.remove((0, 1))
             else:
-                ways.remove( (0, -1) )
+                ways.remove((0, -1))
         # Szuka drogi
         for dir in ways:
                              
@@ -246,7 +246,7 @@ class Map:
                             continue
                     
                     self.__map[tx][ty] = 1
-                    self.__points.append( (tx, ty) )
+                    self.__points.append((tx, ty))
                     return True
         return False
                     
@@ -256,30 +256,30 @@ class Map:
         Raises:
             ErrorshowerException : An error in generating maze.
         """
-        if self.__generated == False:
+        if not self.__generated:
             raise ErrorshowerException( "Pierwsze wygeneruj siatke" )
-            return
+            #return
         
         if self.__start == self.__end:
             raise ErrorshowerException( "Start nie moze byc na końcu labiryntu" )
-            return
+            #return
             
-        if self.__check_if_possible() == False:
+        if not self.__check_if_possible():
             raise ErrorshowerException( "Nie mozna wygenerowac Labiryntu" )
-            return
+            #return
             
         self.__x, self.__y = self.__start
         
-        pk = [ (self.__x, self.__y)]
+        pk = [(self.__x, self.__y)]
         self.__points = []
-        self.__map = [ [0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex) ]
-        self.__map[ self.__x ][ self.__y ] = 2
-        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
-        self.__points.append( (self.__start[0], self.__start[1]) )
+        self.__map = [[0 for y in range(0, self.__sizey)] for x in range(0, self.__sizex)]
+        self.__map[self.__x][self.__y] = 2
+        self.__map[self.__end[0]][self.__end[1]] = 3
+        self.__points.append((self.__start[0], self.__start[1]))
         
         # Pierwsza iteracja, uniemożliwienia korytarza w lini prostej
         ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
-        if len( self.__points ) == 1:
+        if len(self.__points) == 1:
             if self.__start[1] == self.__end[1]: # Ta sama linia w X
                 if self.__start[1] < self.__end[1]:
                     ways.remove( (1, 0) )
@@ -287,18 +287,18 @@ class Map:
                     ways.remove( (-1, 0) )
             elif self.__start[0] == self.__end[0]: # Ta sama linia w Y
                 if self.__start[0] < self.__end[0]:
-                    ways.remove( (0, 1) )
+                    ways.remove((0, 1))
                 else:
-                    ways.remove( (0, -1) )
+                    ways.remove((0, -1))
                 
         
-        ways = [ (1, 0), (-1, 0), (0, 1), (0, -1) ]
+        ways = [(1, 0), (-1, 0), (0, 1), (0, -1)]
         
         # Generuje pierwsze pole, jeżeli start i koniec są obok siebie
         self.__check_neighbor(pk, ways)
         
         while True:
-            if self.__findpath(pk, ways) == True:
+            if self.__findpath(pk, ways):
                 break
         
         # Połącz koniec z labiryntem
@@ -306,16 +306,16 @@ class Map:
         if self.__connect_end(ways) == False:
             self.generate()
         
-        self.__emptyGrid = False
+        self.__empty_grid = False
         self.__userpp.clear()
               
     def solve_maze(self):
         """
         Find a shortest way from Start to End and all user defined points and show it in maze.
         """
-        if self.__emptyGrid:
+        if self.__empty_grid:
             raise ErrorshowerException( "Pierwsze wygeneruj labirynt" )
-            return
+            #return
         self.clear_solve()
         self.__userpptmp = self.__userpp.copy()
         self.__userpptmp.append( self.__end )
@@ -345,7 +345,7 @@ class Map:
             wasHere (bool array) : 2d array contains visited positions
             correctPath (bool array) : 2d array with shortest path
         """
-        x, y = pos[0], pos[1]
+        x, y =pos[0], pos[1]
         
         if len(self.__userpptmp) == 1:
             if pos in self.__userpptmp:
@@ -363,33 +363,33 @@ class Map:
         wasHere[x][y] = True
         
         if x != 0:                                                         # Checks if not on left edge
-            if self.__recursive_solve( (x - 1, y), wasHere, correctPath):   # Recalls method one to the left
+            if self.__recursive_solve((x - 1, y), wasHere, correctPath):   # Recalls method one to the left
                 correctPath[x][y] = True
                 return True
 
         if  x != self.__sizex - 1:                                         # Checks if not on right edge
-            if self.__recursive_solve( (x + 1, y), wasHere, correctPath):   # Recalls method one to the right
+            if self.__recursive_solve((x + 1, y), wasHere, correctPath):   # Recalls method one to the right
                 correctPath[x][y] = True
                 return True
             
         if y != 0:
-            if self.__recursive_solve( (x, y - 1), wasHere, correctPath):   # Recalls method one up
+            if self.__recursive_solve((x, y - 1), wasHere, correctPath):   # Recalls method one up
                 correctPath[x][y] = True
                 return True
                 
         if y != self.__sizey - 1:        # Checks if not on bottom edge
-            if self.__recursive_solve( (x, y + 1), wasHere, correctPath):   # Recalls method one down
+            if self.__recursive_solve((x, y + 1), wasHere, correctPath):   # Recalls method one down
                 correctPath[x][y] = True
                 return True
             
         return False
     
     def clear_solve(self):
-        self.__map = [ [1 if self.__map[x][y] == 4 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
+        self.__map = [[1 if self.__map[x][y] == 4 else self.__map[x][y] for y in range(0, self.__sizey)] for x in range(0, self.__sizex)]
         
     def clear_points(self):
         self.__userpp.clear()
-        self.__map = [ [1 if self.__map[x][y] == 5 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
+        self.__map = [[1 if self.__map[x][y] == 5 else self.__map[x][y] for y in range(0, self.__sizey)] for x in range(0, self.__sizex)]
 
     def set_start(self, x, y):
         """
@@ -399,10 +399,10 @@ class Map:
             y (int) : position in y axis
         """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
-            self.__map[ x ][ y ] = 2
+            self.__map[x][y] = 2
             self.__start = (x, y)
         else:
-            self.__map[ 0 ][ 0 ] = 2
+            self.__map[0][0] = 2
             self.__start = (0, 0)
             
     def set_end(self, x, y):
@@ -413,10 +413,10 @@ class Map:
             y (int) : position in y axis
         """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
-            self.__map[ x ][ y ] = 3
+            self.__map[x][y] = 3
             self.__end = (x, y)
         else:
-            self.__map[ self.__sizex - 1 ][ self.__sizey - 1 ] = 3
+            self.__map[self.__sizex - 1][self.__sizey - 1] = 3
             self.__end = (self.__sizex - 1, self.__sizey - 1)
     
     def generate_grid(self, x, y):
@@ -434,27 +434,27 @@ class Map:
             sizex = int(x)
         except Exception:
             raise ErrorshowerException( "Size X nie jest liczba!" )
-            return
+            #return
             
         try:
             sizey = int(y)
         except Exception:
             raise ErrorshowerException( "Size Y nie jest liczba!" )
-            return
+            #return
     
     
         if sizex < 3 or sizex > 30 or sizey < 3 or sizey > 30:
             raise ErrorshowerException( "Dozwolony rozmiar labiryntu wynosi od 3x3 do 30x30" )
-            return
+            #return
         
-        self.__map = [ [0 for y in range(0, sizey)] for x in range(0, sizex) ]
+        self.__map = [[0 for y in range(0, sizey)] for x in range(0, sizex)]
         
         self.__sizex = sizex
         self.__sizey = sizey
         self.__tilesizex = self.__wsizex / self.__sizex
         self.__tilesizey = self.__wsizey / self.__sizey
         self.__generated = True
-        self.__emptyGrid = True
+        self.__empty_grid = True
         self.__userpp.clear()
         
         self.set_start(self.__start[0], self.__start[1])
@@ -482,7 +482,7 @@ class Map:
         Returns:
             tuple ( (int, int) ) : (x, y) tile cords in maze
         """
-        return ( int( mousepos.x / self.__tilesizex ), int( mousepos.y / self.__tilesizey ))
+        return (int( mousepos.x / self.__tilesizex ),int( mousepos.y / self.__tilesizey ))
     
     def handle_event(self, event, mousepos):
         """
@@ -497,30 +497,30 @@ class Map:
             
         if event == sf.Event.MOUSE_BUTTON_RELEASED:
             if 0 < mousepos.x < self.__wsizex and 0 < mousepos.y < self.__wsizey:
-                if self.__emptyGrid:
+                if self.__empty_grid:
                     if event['button'] == MOUSE_LEFT:
-                        self.__map[ self.__start[0] ][ self.__start[1] ] = 0
+                        self.__map[self.__start[0]][self.__start[1]] = 0
                         self.__start = self.__mousepos_to_tile(mousepos)
-                        self.__map[ self.__start[0] ][ self.__start[1] ] = 2
+                        self.__map[self.__start[0]][self.__start[1]] = 2
                         
-                        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
+                        self.__map[self.__end[0]][self.__end[1]] = 3
                         
                     
                     if event['button'] == MOUSE_RIGHT:
-                        self.__map[ self.__end[0] ][ self.__end[1] ] = 0
+                        self.__map[self.__end[0]][self.__end[1]] = 0
                         self.__end = self.__mousepos_to_tile(mousepos)
-                        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
+                        self.__map[self.__end[0]][self.__end[1]] = 3
                         
-                        self.__map[ self.__start[0] ][ self.__start[1] ] = 2
+                        self.__map[self.__start[0]][self.__start[1]] = 2
                 else:
                     if event['button'] == MOUSE_MIDDLE:
                         pos = self.__mousepos_to_tile(mousepos)
-                        if self.__map[ pos[0] ][ pos[1] ] == 5 or self.__map[ pos[0] ][ pos[1] ] == 4:
-                            self.__map[ pos[0] ][ pos[1] ] = 1
+                        if self.__map[pos[0]][pos[1]] == 5 or self.__map[pos[0]][pos[1]] == 4:
+                            self.__map[pos[0]][pos[1]] = 1
                             if pos in self.__userpp:
-                                self.__userpp.remove( (pos[0], pos[1]) )
-                        elif self.__map[ pos[0] ][ pos[1] ] == 1:
-                            self.__map[ pos[0] ][ pos[1] ] = 5
-                            self.__userpp.append( (pos[0], pos[1]) )
+                                self.__userpp.remove((pos[0], pos[1]))
+                        elif self.__map[pos[0]][pos[1]] == 1:
+                            self.__map[pos[0]][pos[1]] = 5
+                            self.__userpp.append((pos[0], pos[1]))
                         #print( self.__userpp )
     
