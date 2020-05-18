@@ -9,9 +9,9 @@ class Game:
     The class that stores the window, draws and updates it
     """
     __windowsize = (1060, 960)
-    __window = Window( __windowsize )
+    __window = Window(__windowsize)
     __clock = sf.Clock()
-    __map = Map( __windowsize )
+    __map = Map(__windowsize)
     
     __GuiManager = GUI.guimanager.GUIManager(__window.get_render_window(), __map)
     

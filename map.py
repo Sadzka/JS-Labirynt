@@ -32,7 +32,7 @@ class Map:
         Create a maze object.
 
         Parameters:
-        wsize (int x, int y): x and y size of maze
+        wsize (int x, int y): window x and y size
         """
         self.__wsizex, self.__wsizey = wsize
         self.__wsizex = self.__wsizex - 100
@@ -308,6 +308,7 @@ class Map:
         
         self.__empty_grid = False
         self.__userpp.clear()
+        return True # Pomyślnie wygenerowano
               
     def solve_maze(self):
         """
@@ -484,6 +485,17 @@ class Map:
         """
         return (int( mousepos.x / self.__tilesizex ),int( mousepos.y / self.__tilesizey ))
     
+    def add_point(self, pos):
+        if self.__map[pos[0]][pos[1]] == 0:
+            raise ErrorshowerException("Nie można dodać punktu pośredniego w ścianie.")
+        if self.__map[pos[0]][pos[1]] == 5 or self.__map[pos[0]][pos[1]] == 4:
+            self.__map[pos[0]][pos[1]] = 1
+            if pos in self.__userpp:
+                self.__userpp.remove((pos[0], pos[1]))
+        elif self.__map[pos[0]][pos[1]] == 1:
+            self.__map[pos[0]][pos[1]] = 5
+            self.__userpp.append((pos[0], pos[1]))
+            
     def handle_event(self, event, mousepos):
         """
         Handle window event.
@@ -514,13 +526,6 @@ class Map:
                         self.__map[self.__start[0]][self.__start[1]] = 2
                 else:
                     if event['button'] == MOUSE_MIDDLE:
-                        pos = self.__mousepos_to_tile(mousepos)
-                        if self.__map[pos[0]][pos[1]] == 5 or self.__map[pos[0]][pos[1]] == 4:
-                            self.__map[pos[0]][pos[1]] = 1
-                            if pos in self.__userpp:
-                                self.__userpp.remove((pos[0], pos[1]))
-                        elif self.__map[pos[0]][pos[1]] == 1:
-                            self.__map[pos[0]][pos[1]] = 5
-                            self.__userpp.append((pos[0], pos[1]))
-                        #print( self.__userpp )
+                        self.add_point(self.__mousepos_to_tile(mousepos))
+                        
     
