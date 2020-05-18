@@ -49,3 +49,17 @@ przy próbie dodania punktu pośredniego
 
 ## Link do Githuba:
 https://github.com/Sadzka/JS-Labirynt
+
+. Na końcu raportu muszą się znaleźć opisane linki do istotnych fragmentów
+kodu (w źródłach na GitHub) który obrazuje wymagane w projekcie
+konstrukcje takie jak:
+a. Lambda-wyrażenia
+[Lambda 1](https://github.com/Sadzka/JS-Labirynt/blob/a324a405ab57c14d32b685349b420851792f40bf/game.py#L101)
+[Lambda 2](https://github.com/Sadzka/JS-Labirynt/blob/a324a405ab57c14d32b685349b420851792f40bf/game.py#L105)
+[Lambda 3](https://github.com/Sadzka/JS-Labirynt/blob/a324a405ab57c14d32b685349b420851792f40bf/game.py#L109
+[Lambda 4](https://github.com/Sadzka/JS-Labirynt/blob/a324a405ab57c14d32b685349b420851792f40bf/game.py#L113)
+[Lambda 5](https://github.com/Sadzka/JS-Labirynt/blob/a324a405ab57c14d32b685349b420851792f40bf/game.py#L118)
+b. List comprehensions
+c. Klasy
+d. Wyjątki
+e. Moduły
