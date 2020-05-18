@@ -1,4 +1,3 @@
-"""Basic class for all widgets."""
 from sfml import sf
 
 try:
@@ -8,7 +7,7 @@ except IOError as error:
     exit(1)
 
 class Widget:
-    
+    """Basic class for all widgets."""
     def __init__(self, x=0, y=0):
         self._position = (x, y)
         self._focused = False

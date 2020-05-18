@@ -1,4 +1,3 @@
-"""Widget to enter and show text."""
 from sfml import sf
 
 from GUI.widget import Widget
@@ -8,7 +7,7 @@ from GUI.text import Text
 MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE = range(3)
 
 class EditBox(Text):
-
+    """Widget to enter and show text."""
     __caret = sf.Text('|')
     __caret.font = font
     __caret.character_size = 20
@@ -17,11 +16,11 @@ class EditBox(Text):
         """
         Create a EditBox object.
         Parameters:
-        x (int) : position of left corner
-        y (int) : position of upper corner
-        sizex (int) : width of EditBox
-        sizey (int) : height of EditBox
-        text (str) : text in button
+            x (int) : position of left corner
+            y (int) : position of upper corner
+            sizex (int) : width of EditBox
+            sizey (int) : height of EditBox
+            text (str) : text in button
         """
         super().__init__(text, x, y)
         self.__canvas = sf.RenderTexture(sizex, sizey)
@@ -31,8 +30,9 @@ class EditBox(Text):
     def draw(self, window):
         """
         Draw this widget in window.
+        
         Parameters:
-        window (Window) : Window to draw.
+            window (Window) : Window to draw.
         """
         self.__canvas.clear( sf.Color(155, 155, 155) )
         
@@ -60,9 +60,9 @@ class EditBox(Text):
         Handle window event.
         
         Parameters:
-        event (sf.Event) : Event to handle.
-        mousepos (int, int) : Position of mouse.
-        GUI (GUIManager) : GUIManager with widgets.
+            event (sf.Event) : Event to handle.
+            mousepos (int, int) : Position of mouse.
+            GUI (GUIManager) : GUIManager with widgets.
         """
         
         if self.__sprite == 0:

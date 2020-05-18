@@ -1,4 +1,3 @@
-"""Widget to display errors."""
 from sfml import sf
 
 from GUI.widget import Widget
@@ -6,6 +5,7 @@ from GUI.widget import font
 from GUI.text import Text
 
 class ErrorshowerException(Exception):
+    """Exception used by errorshower."""
     def __init__(self,text):
         self.value = text
         
@@ -18,7 +18,7 @@ class ErrorshowerException(Exception):
         return self.value
 
 class errorshower(Text):
-    
+    """Widget to display errors."""
     def __init__(self, x=0, y=0, fontsize=32, duration=2, fade=3, center=True):
     
         if not __name__ == "GUI.errorshower":
@@ -36,9 +36,6 @@ class errorshower(Text):
             self.__fade = fade
     
     def selfupdate(self):
-        """
-        Update required variables.
-        """
         if self.__center:
             self._text.position = ( self._position[0] - self._text.global_bounds.width/2, self._position[1] - self._text.global_bounds.height/2 )
         else:
@@ -47,8 +44,9 @@ class errorshower(Text):
     def set_center(self, center):
         """
         Set Anchor to center of text.
+        
         Parameters:
-        center (bool) : True to set
+            center (bool) : True to set
         """
         self.__center = center
         self.selfupdate()
@@ -56,8 +54,9 @@ class errorshower(Text):
     def show(self, str=""):
         """
         Show the Error.
+        
         Parameters:
-        str (str) : Message to show
+            str (str) : Message to show
         """
         if not str == "":
             self.set_text(str)
@@ -69,16 +68,18 @@ class errorshower(Text):
     def set_duration(self, duration):
         """
         Set the duration after error begin disappear.
+        
         Parameters:
-        duration (float) : time in seconds
+            duration (float) : time in seconds
         """
         self.__duration = duration
         
     def set_fade(self, fade):
         """
         Set the fade after error disappear.
+        
         Parameters:
-        fade (float) : time in seconds
+            fade (float) : time in seconds
         """
         if fade < self.__duration:
             self.__fade = self.__duration + 1
@@ -88,8 +89,9 @@ class errorshower(Text):
     def draw(self, window):
         """
         Draw this widget in window.
+        
         Parameters:
-        window (Window) : Window to draw.
+            window (Window) : Window to draw.
         """
         alpha = 255
         if self._elapsed_time < self.__fade:

@@ -5,6 +5,9 @@ from window import Window
 from map import Map
 
 class Game:
+    """
+    The class that stores the window, draws and updates it
+    """
     __windowsize = (1060, 960)
     __window = Window( __windowsize )
     __clock = sf.Clock()
@@ -16,27 +19,12 @@ class Game:
         self.__load_widgets()
     
     def is_running(self):
-        """
-        Return a window status.
-
-        Returns:
-        bool: Is window open?
-        """
         return self.__window.is_open()
     
     def get_window(self):
-        """
-        Return Window.
-        
-        Returns:
-        Window
-        """
         return self.__window
         
     def update(self):
-        """
-        Update time of program and handle window events.
-        """
         dtime = self.__clock.restart().seconds
         
         self.__window.update(self.__GuiManager)

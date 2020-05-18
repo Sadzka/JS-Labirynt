@@ -1,4 +1,4 @@
-"""Class to generate maze and find path in maze."""
+
 import random
 
 from sfml import sf
@@ -8,7 +8,7 @@ from GUI.errorshower import ErrorshowerException
 MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE = range(3)
 
 class Map:
-    
+    """Class to generate maze and find path in maze."""
     # Window Size
     __wsizex = 0
     __wsizey = 0
@@ -204,7 +204,7 @@ class Map:
         Connect the end point with path.
 
         Parameters:
-        ways ( (int, int) array ): possible directions
+            ways ( (int, int) array ): possible directions
         """
         x, y = self.__end[0], self.__end[1]
         
@@ -253,6 +253,8 @@ class Map:
     def generate(self):
         """
         Generate maze. First grid need to be generated.
+        Raises:
+            ErrorshowerException : An error in generating maze.
         """
         if self.__generated == False:
             raise ErrorshowerException( "Pierwsze wygeneruj siatke" )
@@ -339,9 +341,9 @@ class Map:
         """
         Find a shortest way from Start to End and all user defined points and show it in maze.
         Parameters:
-        pos ( (int, int) ) : position of searching
-        wasHere (bool array) : 2d array contains visited positions
-        correctPath (bool array) : 2d array with shortest path
+            pos ( (int, int) ) : position of searching
+            wasHere (bool array) : 2d array contains visited positions
+            correctPath (bool array) : 2d array with shortest path
         """
         x, y = pos[0], pos[1]
         
@@ -383,21 +385,18 @@ class Map:
         return False
     
     def clear_solve(self):
-        """
-        Clear solution from maze.
-        """
         self.__map = [ [1 if self.__map[x][y] == 4 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
         
     def clear_points(self):
-        """
-        Clear user defined points from maze.
-        """
         self.__userpp.clear()
         self.__map = [ [1 if self.__map[x][y] == 5 else self.__map[x][y] for y in range(0, self.__sizey) ] for x in range(0, self.__sizex) ]
 
     def set_start(self, x, y):
         """
         Set maze start point.
+        Parameters:
+            x (int) : position in x axis
+            y (int) : position in y axis
         """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             self.__map[ x ][ y ] = 2
@@ -409,6 +408,9 @@ class Map:
     def set_end(self, x, y):
         """
         Set maze end point.
+        Parameters:
+            x (int) : position in x axis
+            y (int) : position in y axis
         """
         if 0 <= x < self.__sizex and 0 <= y < self.__sizey:
             self.__map[ x ][ y ] = 3
@@ -422,8 +424,8 @@ class Map:
         """
         Generate 2d grid with x width and y height.
         Parameters
-        x (int) : width
-        y (int) : height
+            x (int) : width
+            y (int) : height
         """
         sizex = 0
         sizey = 0
@@ -459,26 +461,16 @@ class Map:
         self.set_end(self.__end[0], self.__end[1])
 
     def get_size(self):
-        """
-        Return tuple size of maze.
-        Returns:
-        tuple ( (int, int) ) : (x, y) size of maze
-        """
         return (self.__sizex, self.__sizey)
         
     def get_tiles_size(self):
-        """
-        Return tile size of grid.
-        Returns:
-        tuple ( (int, int) ) : (x, y) size of tile
-        """
         return (self.__tilesizex, self.__tilesizey)
     
     def get_map(self):
         """
         Return Maze.
         Returns:
-        2d array ( int  ) : Return maze
+            2d array ( int  ) : Return maze
         """
         return self.__map
 
@@ -486,9 +478,9 @@ class Map:
         """
         Convert mouse position to x, y tile cords in maze.
         Parameters:
-        mousepos (int, int) : Position of mouse.
+            mousepos (int, int) : Position of mouse.
         Returns:
-        tuple ( (int, int) ) : (x, y) tile cords in maze
+            tuple ( (int, int) ) : (x, y) tile cords in maze
         """
         return ( int( mousepos.x / self.__tilesizex ), int( mousepos.y / self.__tilesizey ))
     
@@ -497,8 +489,8 @@ class Map:
         Handle window event.
         
         Parameters:
-        event (sf.Event) : Event to handle.
-        mousepos (int, int) : Position of mouse.
+            event (sf.Event) : Event to handle.
+            mousepos (int, int) : Position of mouse.
         """
         if not self.__generated:
             return
