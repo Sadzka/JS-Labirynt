@@ -1,3 +1,4 @@
+"""Class to manage GUI Elements."""
 from sfml import sf
 
 class GUIManager:
@@ -49,6 +50,10 @@ class GUIManager:
         """
         mousepos = sf.Mouse.get_position(self.__window)
         
+        # Return if window is in background
+        if not self.__window.has_focus():
+            return
+            
         for widget in self.__widgets:
             widget.handle_event(event, mousepos, self)
             

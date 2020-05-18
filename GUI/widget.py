@@ -1,6 +1,6 @@
+"""Basic class for all widgets."""
 from sfml import sf
 
-# load the messages font
 try:
     font = sf.Font.from_file("fonts/arial.ttf")
 except IOError as error:

@@ -1,3 +1,4 @@
+"""Widget to enter and show text."""
 from sfml import sf
 
 from GUI.widget import Widget

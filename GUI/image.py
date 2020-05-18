@@ -1,3 +1,4 @@
+"""Widget to display images."""
 from sfml import sf
 
 from GUI.widget import Widget

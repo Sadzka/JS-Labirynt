@@ -1,6 +1,5 @@
+"""Class to generate maze and find path in maze."""
 import random
-import numpy as np
-import collections
 
 from sfml import sf
 
@@ -358,12 +357,7 @@ class Map:
             
         elif self.__map[x][y] == 0 or wasHere[x][y]:
             return False;  # If you are on a wall or already were here
-            #return True
-        
-        #if x == self.__end[0] and y == self.__end[1]:
-        #    return True; # If you reached the end
-            
-            
+ 
         wasHere[x][y] = True
         
         if x != 0:                                                         # Checks if not on left edge
@@ -436,13 +430,13 @@ class Map:
         
         try:
             sizex = int(x)
-        except Exception as ex:
+        except Exception:
             raise ErrorshowerException( "Size X nie jest liczba!" )
             return
             
         try:
             sizey = int(y)
-        except Exception as ex:
+        except Exception:
             raise ErrorshowerException( "Size Y nie jest liczba!" )
             return
     
@@ -506,34 +500,35 @@ class Map:
         event (sf.Event) : Event to handle.
         mousepos (int, int) : Position of mouse.
         """
-        if self.__generated == False:
+        if not self.__generated:
             return
             
         if event == sf.Event.MOUSE_BUTTON_RELEASED:
             if 0 < mousepos.x < self.__wsizex and 0 < mousepos.y < self.__wsizey:
-                if event['button'] == MOUSE_LEFT and self.__emptyGrid == True:  # Left Mouse
-                    self.__map[ self.__start[0] ][ self.__start[1] ] = 0
-                    self.__start = self.__mousepos_to_tile(mousepos)
-                    self.__map[ self.__start[0] ][ self.__start[1] ] = 2
+                if self.__emptyGrid:
+                    if event['button'] == MOUSE_LEFT:
+                        self.__map[ self.__start[0] ][ self.__start[1] ] = 0
+                        self.__start = self.__mousepos_to_tile(mousepos)
+                        self.__map[ self.__start[0] ][ self.__start[1] ] = 2
+                        
+                        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
+                        
                     
-                    self.__map[ self.__end[0] ][ self.__end[1] ] = 3
-                    
-                
-                if event['button'] == MOUSE_RIGHT and self.__emptyGrid == True:  # Right Mouse
-                    self.__map[ self.__end[0] ][ self.__end[1] ] = 0
-                    self.__end = self.__mousepos_to_tile(mousepos)
-                    self.__map[ self.__end[0] ][ self.__end[1] ] = 3
-                    
-                    self.__map[ self.__start[0] ][ self.__start[1] ] = 2
-                
-                if event['button'] == MOUSE_MIDDLE and self.__emptyGrid == False:  # Middle Mouse
-                    pos = self.__mousepos_to_tile(mousepos)
-                    if self.__map[ pos[0] ][ pos[1] ] == 5 or self.__map[ pos[0] ][ pos[1] ] == 4:
-                        self.__map[ pos[0] ][ pos[1] ] = 1
-                        if pos in self.__userpp:
-                            self.__userpp.remove( (pos[0], pos[1]) )
-                    elif self.__map[ pos[0] ][ pos[1] ] == 1:
-                        self.__map[ pos[0] ][ pos[1] ] = 5
-                        self.__userpp.append( (pos[0], pos[1]) )
-                    #print( self.__userpp )
+                    if event['button'] == MOUSE_RIGHT:
+                        self.__map[ self.__end[0] ][ self.__end[1] ] = 0
+                        self.__end = self.__mousepos_to_tile(mousepos)
+                        self.__map[ self.__end[0] ][ self.__end[1] ] = 3
+                        
+                        self.__map[ self.__start[0] ][ self.__start[1] ] = 2
+                else:
+                    if event['button'] == MOUSE_MIDDLE:
+                        pos = self.__mousepos_to_tile(mousepos)
+                        if self.__map[ pos[0] ][ pos[1] ] == 5 or self.__map[ pos[0] ][ pos[1] ] == 4:
+                            self.__map[ pos[0] ][ pos[1] ] = 1
+                            if pos in self.__userpp:
+                                self.__userpp.remove( (pos[0], pos[1]) )
+                        elif self.__map[ pos[0] ][ pos[1] ] == 1:
+                            self.__map[ pos[0] ][ pos[1] ] = 5
+                            self.__userpp.append( (pos[0], pos[1]) )
+                        #print( self.__userpp )
     

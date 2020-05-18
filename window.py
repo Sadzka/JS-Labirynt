@@ -1,3 +1,4 @@
+"""Class to display window."""
 from sfml import sf
 
 class Window:
@@ -18,7 +19,7 @@ class Window:
     
     def is_open(self):
         """
-        Create a window.
+        Return a window status.
 
         Returns:
         bool: Is window open?

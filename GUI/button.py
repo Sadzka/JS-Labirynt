@@ -1,3 +1,4 @@
+"""Clickable widget to handle event on click."""
 from sfml import sf
 
 from GUI.widget import Widget
@@ -18,8 +19,8 @@ class Button(Text):
         text (str) : text in button
         """
         super().__init__(text, x, y)
-        __left_callback = 0
-        __right_callback = 0
+        self.__left_callback = 0
+        self.__right_callback = 0
         
     def selfupdate(self):
         """
@@ -58,7 +59,7 @@ class Button(Text):
             else:
                 self._text.color = sf.Color(255, 255, 255)
         
-        if self._text.global_bounds.contains(mousepos):        
+        if self._text.global_bounds.contains(mousepos):
             if event == sf.Event.MOUSE_BUTTON_RELEASED:
                 GUI.focus_me(self)
                 if event['button'] ==  MOUSE_LEFT:
@@ -66,4 +67,4 @@ class Button(Text):
                         self.__left_callback()   
                 elif event['button'] ==  MOUSE_RIGHT:
                     if self.__right_callback != 0:
-                       self.__right_callback()
+                        self.__right_callback()

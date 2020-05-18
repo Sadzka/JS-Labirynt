@@ -1,3 +1,4 @@
+"""Widget to display errors."""
 from sfml import sf
 
 from GUI.widget import Widget

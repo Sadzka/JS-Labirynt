@@ -15,6 +15,15 @@ class Game:
     def __init__(self):
         self.__load_widgets()
     
+    def is_running(self):
+        """
+        Return a window status.
+
+        Returns:
+        bool: Is window open?
+        """
+        return self.__window.is_open()
+    
     def get_window(self):
         """
         Return Window.

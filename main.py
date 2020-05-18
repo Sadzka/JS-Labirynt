@@ -6,7 +6,7 @@ def main():
 
     game = Game()
 
-    while game.get_window().is_open():
+    while game.is_running():
         try:
             game.update()
             game.render()
