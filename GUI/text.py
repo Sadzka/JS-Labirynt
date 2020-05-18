@@ -44,3 +44,4 @@ class Text(Widget):
         
     def selfupdate(self):
         self._text.position = self._position
+        

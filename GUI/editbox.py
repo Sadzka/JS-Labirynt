@@ -85,4 +85,4 @@ class EditBox(Text):
                     self.set_focus(False)
                 else:
                     self.set_text(self.get_text() + event['unicode'])
-                
+
