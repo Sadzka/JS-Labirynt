@@ -75,5 +75,8 @@ z uwzględnieniem punktów pośrednich.
 
 przycisk "clear solve" usuwa punkty pośrednie z wizualizacji.
 
+
+[![Labirynt](https://github.com/Sadzka/JS-Labirynt/blob/master/Examples/labiryntExample.png?raw=true)](https://github.com)
+[![Pola](https://github.com/Sadzka/JS-Labirynt/blob/master/Examples/tiles.jpg?raw=true)](https://github.com)
 ## Link do Githuba:
 https://github.com/Sadzka/JS-Labiryn
