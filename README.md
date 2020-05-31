@@ -75,6 +75,9 @@ z uwzględnieniem punktów pośrednich.
 
 przycisk "clear solve" usuwa punkty pośrednie z wizualizacji.
 
+Projekt zawiera wszystkie wymagane punkty z opisu zadania. Także te, które sprawiają, że droga nie może być linią prostą, czego zaprogamowanie sprawiło trochę problemów.
+
+Co do testów, nie przeprowadzono testu nr 5 oraz 8. Stworzenie takich testów wymagałoby dodatkowych funkcji.
 
 [![Labirynt](https://github.com/Sadzka/JS-Labirynt/blob/master/Examples/labiryntExample.png?raw=true)](https://github.com)
 [![Pola](https://github.com/Sadzka/JS-Labirynt/blob/master/Examples/tiles.jpg?raw=true)](https://github.com)
